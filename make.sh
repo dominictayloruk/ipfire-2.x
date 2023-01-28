@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="171"							# Core Level (Filename)
+CORE="172"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -910,7 +910,7 @@ qemu_find_build_helper_name() {
 file_is_static() {
 	local file="${1}"
 
-	file -L "${file}" 2>/dev/null | grep -q "statically linked"
+	file -L "${file}" 2>/dev/null | grep -q -e "statically linked" -e "static-pie linked"
 }
 
 update_language_list() {
@@ -1293,6 +1293,7 @@ buildipfire() {
   lfsmake2 rust-num-integer
   lfsmake2 rust-num_threads
   lfsmake2 rust-time
+  lfsmake2 rust-iana-time-zone
   lfsmake2 rust-chrono
   lfsmake2 rust-asn1_derive
   lfsmake2 rust-asn1
@@ -1507,7 +1508,6 @@ buildipfire() {
   lfsmake2 rpcbind
   lfsmake2 keyutils
   lfsmake2 nfs
-  lfsmake2 gnu-netcat
   lfsmake2 ncat
   lfsmake2 nmap
   lfsmake2 etherwake
@@ -1517,7 +1517,6 @@ buildipfire() {
   lfsmake2 rng-tools
   lfsmake2 lsof
   lfsmake2 br2684ctl
-  lfsmake2 pcmciautils
   lfsmake2 lm_sensors
   lfsmake2 libstatgrab
   lfsmake2 liboping
@@ -1525,6 +1524,8 @@ buildipfire() {
   lfsmake2 elinks
   lfsmake2 igmpproxy
   lfsmake2 opus
+  lfsmake2 python3-toml
+  lfsmake2 python3-pyproject2setuppy
   lfsmake2 python3-pyparsing
   lfsmake2 spice-protocol
   lfsmake2 spice
@@ -1605,8 +1606,6 @@ buildipfire() {
   lfsmake2 python3-certifi
   lfsmake2 python3-idna
   lfsmake2 python3-requests
-  lfsmake2 python3-toml
-  lfsmake2 python3-pyproject2setuppy
   lfsmake2 python3-tomli
   lfsmake2 python3-pep517
   lfsmake2 python3-build
@@ -1642,7 +1641,6 @@ buildipfire() {
   lfsmake2 python3-sortedcontainers
   lfsmake2 python3-outcome
   lfsmake2 python3-async_generator
-  lfsmake2 python3-Cython
   lfsmake2 python3-trio
   lfsmake2 python3-pyfuse3
   lfsmake2 aws-cli
