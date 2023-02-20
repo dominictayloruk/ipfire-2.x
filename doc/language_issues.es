@@ -415,7 +415,6 @@ WARNING: translation string unused: host deny
 WARNING: translation string unused: hostname and domain already in use
 WARNING: translation string unused: hour-graph
 WARNING: translation string unused: hours2
-WARNING: translation string unused: ibod for dual isdn only
 WARNING: translation string unused: icmp selected but no type
 WARNING: translation string unused: icmp type
 WARNING: translation string unused: id
@@ -939,6 +938,9 @@ WARNING: translation string unused: zoneconf val zoneslave amount error
 WARNING: untranslated string: Captive ACTIVATE = unknown string
 WARNING: untranslated string: Captive clients = unknown string
 WARNING: untranslated string: Scan for Songs = unknown string
+WARNING: untranslated string: access point name = Access Point Name
+WARNING: untranslated string: access point name is invalid = Access Point Name is invalid
+WARNING: untranslated string: access point name is required = Access Point Name is required
 WARNING: untranslated string: bytes = unknown string
 WARNING: untranslated string: cpu frequency = CPU frequency
 WARNING: untranslated string: dns servers = DNS Servers

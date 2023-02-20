@@ -32,7 +32,6 @@ require "${General::swroot}/header.pl";
 our %pppsettings=();
 my %temppppsettings=();
 our %modemsettings=();
-our %isdnsettings=();
 our %netsettings=();
 my %selected=();
 my %checked=();
@@ -63,7 +62,7 @@ if ($pppsettings{'ACTION'} ne '' &&
         &General::readhash("${General::swroot}/ppp/settings", \%pppsettings);}
 elsif ($pppsettings{'ACTION'} eq $Lang::tr{'refresh'})
 {
-        unless ($pppsettings{'TYPE'} =~ /^(modem|serial|isdn|pppoe|pptp|vdsl|pppoeatm|pptpatm)$/) {
+        unless ($pppsettings{'TYPE'} =~ /^(modem|serial|pppoe|pptp|vdsl|pppoeatm|pptpatm)$/) {
                 $errormessage = $Lang::tr{'invalid input'};
                 goto ERROR; }
         my $type = $pppsettings{'TYPE'};
@@ -72,10 +71,10 @@ elsif ($pppsettings{'ACTION'} eq $Lang::tr{'refresh'})
 }
 elsif ($pppsettings{'ACTION'} eq $Lang::tr{'save'})
 {
-        if ($pppsettings{'TYPE'} =~ /^(modem|serial|isdn)$/ && $pppsettings{'COMPORT'} !~ /^(ttyS0|ttyS1|ttyS2|ttyS3|ttyS4|ttyACM[0-9]|ttyUSB[0-9]|rfcomm0|rfcomm1|isdn1|isdn2)$/) {
+        if ($pppsettings{'TYPE'} =~ /^(modem|serial)$/ && $pppsettings{'COMPORT'} !~ /^(ttyS0|ttyS1|ttyS2|ttyS3|ttyS4|ttyACM[0-9]|ttyUSB[0-9]|rfcomm0|rfcomm1)$/) {
                 $errormessage = $Lang::tr{'invalid input'};
                 goto ERROR; }
-        if ($pppsettings{'TYPE'} =~ /^(modem|serial|isdn)$/ && $pppsettings{'MONPORT'} !~ /^(|ttyACM[0-9]|ttyUSB[0-9]|rfcomm0|rfcomm1)$/) {
+        if ($pppsettings{'TYPE'} =~ /^(modem|serial)$/ && $pppsettings{'MONPORT'} !~ /^(|ttyACM[0-9]|ttyUSB[0-9]|rfcomm0|rfcomm1)$/) {
                 $errormessage = $Lang::tr{'invalid input'};
                 goto ERROR; }
         if ($pppsettings{'TYPE'} =~ /^(modem|serial)$/ && $pppsettings{'DTERATE'} !~ /^(9600|19200|38400|57600|115200|230400|460800|921600)$/) {
@@ -88,12 +87,22 @@ elsif ($pppsettings{'ACTION'} eq $Lang::tr{'save'})
                 $errormessage = $Lang::tr{'invalid input'};
                 goto ERROR;
         }
+	if ($pppsettings{'TYPE'} eq "qmi") {
+		# APN cannot be empty
+		if ($pppsettings{'APN'} eq "") {
+			$errormessage = $Lang::tr{'access point name is required'};
+			goto ERROR;
+		} elsif (!&General::validdomainname($pppsettings{'APN'})) {
+			$errormessage = $Lang::tr{'access point name is invalid'};
+			goto ERROR;
+		}
+	}
 
         if ($pppsettings{'PROFILENAME'} eq '') {
                 $errormessage = $Lang::tr{'profile name not given'};
                 $pppsettings{'PROFILENAME'} = '';
                 goto ERROR; }
-        if ($pppsettings{'TYPE'} =~ /^(modem|isdn)$/) {
+        if ($pppsettings{'TYPE'} =~ /^(modem)$/) {
                 if ($pppsettings{'TELEPHONE'} eq '') {
                         $errormessage = $Lang::tr{'telephone not set'};
                         goto ERROR; }
@@ -524,6 +533,7 @@ print <<END
 	<option value='pppoe' $selected{'TYPE'}{'pppoe'}>PPPoE</option>
 	<option value='pptp' $selected{'TYPE'}{'pptp'}>PPTP</option>
 	<option value='vdsl' $selected{'TYPE'}{'vdsl'}>VDSL</option>
+	<option value='qmi' $selected{'TYPE'}{'qmi'}>QMI</option>
 END
 ;
 
@@ -720,7 +730,8 @@ END
 ;
 }
 
-print <<END
+if ($pppsettings{'TYPE'} ne "qmi") {
+	print <<END
 <tr>
         <td colspan='3' width='75%'>$Lang::tr{'idle timeout'}&nbsp;<img src='/blob.gif' alt='*' /></td>
         <td width='25%'><input type='text' name='TIMEOUT' value='$pppsettings{'TIMEOUT'}' /></td>
@@ -739,8 +750,7 @@ print <<END
  </tr>
 END
 ;
-if ($pppsettings{'TYPE'} ne 'isdn') {
-print <<END
+	print <<END
  <tr>
         <td colspan='4' width='100%'><input type='radio' name='RECONNECTION' value='persistent' $checked{'RECONNECTION'}{'persistent'}>$Lang::tr{'persistent'}</td>
  </tr>
@@ -755,11 +765,7 @@ END
         print <<END
         </select></td>
 </tr>
-END
-;
-}
-print <<END
- <tr>
+<tr>
         <td colspan='3' width='75%'>$Lang::tr{'dod for dns'}</td>
   <td width='25%'><input type='checkbox' name='DIALONDEMANDDNS' $checked{'DIALONDEMANDDNS'}{'on'} /></td>
 </tr>
@@ -773,6 +779,7 @@ print <<END
 </tr>
 END
 ;
+}
 
 if ($pppsettings{'TYPE'} eq 'pptp')
 {
@@ -892,28 +899,30 @@ END
 ;
 }
 
-print <<END
-<tr><td colspan='4' width='100%'><br></br></td></tr>
-<tr>
-        <td bgcolor='$color{'color20'}' colspan='4' width='100%'><b>MTU/MRU</b></td>
-</tr>
-<tr>
-<tr>
-        <td width='25%'>MTU:</td>
-        <td width='25%'><input type='text' name='MTU' value='$pppsettings{'MTU'}' /></td>
-</tr>
-<tr>
-        <td width='25%'>MRU:</td>
-        <td width='25%'><input type='text' name='MRU' value='$pppsettings{'MRU'}' /></td>
-</tr>
-END
-;
-
-print <<END
+print <<END;
 <tr><td colspan='4' width='100%'><br></br></td></tr>
 <tr>
         <td bgcolor='$color{'color20'}' colspan='4' width='100%'><b>$Lang::tr{'authentication'}</b></td>
 </tr>
+END
+
+# Ask for the APN for QMI
+if ($pppsettings{'TYPE'} eq 'qmi') {
+	print <<END;
+		<tr>
+			<td width="25%">
+				$Lang::tr{'access point name'}
+				&nbsp;
+				<img src='/blob.gif' alt='*'/>
+			</td>
+			<td colspan="3" width="75%">
+				<input type="text" name="APN" value="$pppsettings{'APN'}" />
+			</td>
+		</tr>
+END
+}
+
+print <<END
 <tr>
         <td width='25%'>$Lang::tr{'username'}&nbsp;<img src='/blob.gif' alt='*' /></td>
         <td width='25%'><input type='text' name='USERNAME' value='$pppsettings{'USERNAME'}' /></td>
@@ -940,6 +949,19 @@ print <<END
         </select></td>
         <td width='25%'>$Lang::tr{'script name'}</td>
         <td width='25%'><input type='text' name='LOGINSCRIPT' value='$pppsettings{'LOGINSCRIPT'}' /></td>
+</tr>
+<tr><td colspan='4' width='100%'><br></br></td></tr>
+<tr>
+        <td bgcolor='$color{'color20'}' colspan='4' width='100%'><b>MTU/MRU</b></td>
+</tr>
+<tr>
+<tr>
+        <td width='25%'>MTU:</td>
+        <td width='25%'><input type='text' name='MTU' value='$pppsettings{'MTU'}' /></td>
+</tr>
+<tr>
+        <td width='25%'>MRU:</td>
+        <td width='25%'><input type='text' name='MRU' value='$pppsettings{'MRU'}' /></td>
 </tr>
 <tr><td colspan='4' width='100%'><br></br><hr></hr><br></br></td></tr>
 <tr>

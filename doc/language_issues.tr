@@ -398,7 +398,6 @@ WARNING: translation string unused: host deny
 WARNING: translation string unused: hostname and domain already in use
 WARNING: translation string unused: hour-graph
 WARNING: translation string unused: hours2
-WARNING: translation string unused: ibod for dual isdn only
 WARNING: translation string unused: icmp selected but no type
 WARNING: translation string unused: icmp type
 WARNING: translation string unused: id
@@ -443,10 +442,6 @@ WARNING: translation string unused: ip address in use
 WARNING: translation string unused: ipfire side
 WARNING: translation string unused: ipsec no connections
 WARNING: translation string unused: iptable rules
-WARNING: translation string unused: isdn
-WARNING: translation string unused: isdn settings
-WARNING: translation string unused: isdn1
-WARNING: translation string unused: isdn2
 WARNING: translation string unused: javascript menu error1
 WARNING: translation string unused: javascript menu error2
 WARNING: translation string unused: kernel version
@@ -882,6 +877,9 @@ WARNING: translation string unused: yearly firewallhits
 WARNING: untranslated string: Captive clients = unknown string
 WARNING: untranslated string: Captive delete logo = Delete Logo
 WARNING: untranslated string: Scan for Songs = unknown string
+WARNING: untranslated string: access point name = Access Point Name
+WARNING: untranslated string: access point name is invalid = Access Point Name is invalid
+WARNING: untranslated string: access point name is required = Access Point Name is required
 WARNING: untranslated string: acpitemp = ACPI - Temperatures
 WARNING: untranslated string: advproxy asbased anomaly detection = Anomaly detections based on Autonomous Systems information
 WARNING: untranslated string: advproxy errmsg invalid url = Invalid URL

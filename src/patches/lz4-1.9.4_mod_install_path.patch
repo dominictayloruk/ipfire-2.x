@@ -1,0 +1,24 @@
+diff -Naur lz4-1.9.4.orig/lib/Makefile lz4-1.9.4/lib/Makefile
+--- lz4-1.9.4.orig/lib/Makefile	2022-08-16 00:45:31.000000000 +0200
++++ lz4-1.9.4/lib/Makefile	2023-01-25 14:31:42.117296250 +0100
+@@ -151,7 +151,7 @@
+ # directory variables : GNU conventions prefer lowercase
+ # see https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html
+ # support both lower and uppercase (BSD), use lower in script
+-PREFIX      ?= /usr/local
++PREFIX      ?= /usr
+ prefix      ?= $(PREFIX)
+ EXEC_PREFIX ?= $(prefix)
+ exec_prefix ?= $(EXEC_PREFIX)
+diff -Naur lz4-1.9.4.orig/programs/Makefile lz4-1.9.4/programs/Makefile
+--- lz4-1.9.4.orig/programs/Makefile	2022-08-16 00:45:31.000000000 +0200
++++ lz4-1.9.4/programs/Makefile	2023-01-25 14:31:56.923590369 +0100
+@@ -157,7 +157,7 @@
+ # directory variables : GNU conventions prefer lowercase
+ # see https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html
+ # support both lower and uppercase (BSD), use lowercase in script
+-PREFIX      ?= /usr/local
++PREFIX      ?= /usr
+ prefix      ?= $(PREFIX)
+ EXEC_PREFIX ?= $(prefix)
+ exec_prefix ?= $(EXEC_PREFIX)

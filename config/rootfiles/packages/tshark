@@ -675,8 +675,6 @@ usr/lib/wireshark/extcap/udpdump
 #usr/lib/wireshark/plugins/3.6
 #usr/lib/wireshark/plugins/3.6/codecs
 usr/lib/wireshark/plugins/3.6/codecs/g711.so
-usr/lib/wireshark/plugins/3.6/codecs/g722.so
-usr/lib/wireshark/plugins/3.6/codecs/g726.so
 usr/lib/wireshark/plugins/3.6/codecs/l16mono.so
 usr/lib/wireshark/plugins/3.6/codecs/opus_dec.so
 #usr/lib/wireshark/plugins/3.6/epan
@@ -755,10 +753,8 @@ usr/share/wireshark/enterprises.tsv
 #usr/share/wireshark/profiles/Bluetooth/preferences
 #usr/share/wireshark/profiles/Classic
 #usr/share/wireshark/profiles/Classic/colorfilters
-#usr/share/wireshark/profiles/No
-#Reassembly
-#usr/share/wireshark/profiles/No
-#Reassembly/preferences
+#usr/share/wireshark/profiles/No Reassembly
+#usr/share/wireshark/profiles/No Reassembly/preferences
 #usr/share/wireshark/radius
 #usr/share/wireshark/radius/README.radius_dictionary
 usr/share/wireshark/radius/custom.includes

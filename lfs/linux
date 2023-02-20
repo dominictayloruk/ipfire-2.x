@@ -1,7 +1,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2022  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2023  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -24,8 +24,8 @@
 
 include Config
 
-VER         = 5.15.71
-ARM_PATCHES = 5.15-ipfire5
+VER         = 6.1.11
+ARM_PATCHES = 6.1.y-ipfire0
 
 THISAPP    = linux-$(VER)
 DL_FILE    = linux-$(VER).tar.xz
@@ -78,8 +78,8 @@ objects =$(DL_FILE) \
 $(DL_FILE)					= $(URL_IPFIRE)/$(DL_FILE)
 arm-multi-patches-$(ARM_PATCHES).patch.xz	= $(URL_IPFIRE)/arm-multi-patches-$(ARM_PATCHES).patch.xz
 
-$(DL_FILE)_BLAKE2 = 77da2393a31b6c6fed7cdfef61a112ae49fcdfce96968daf8c7a690a6e65025c7238c1fe084d0bfda403dc56db877b6db99def12803e840cacf318da40327d7b
-arm-multi-patches-$(ARM_PATCHES).patch.xz_BLAKE2 = 58a70e757a9121a0aac83604a37aa787ec7ac0ee4970c5a3ac3bcb2dbaca32b00089cae6c0da5cf2fe0a2e156427b5165c6a86e0371a3e896f4c7cdd699c34a0
+$(DL_FILE)_BLAKE2 = 2a1dc1acd63308d72a927f39bc5a9be0bc220673655422c90113300598e754d16021cec85751044114d161a82e476473896bd778180d889d54917ce19d176b4c
+arm-multi-patches-$(ARM_PATCHES).patch.xz_BLAKE2 = 3ef9a778c5c41ee8bf2942a48f63b21228a632a2910d2123f01155bbf571592898cffffa61c387a5a6c817b62e458947b4c406c6591b23b5401faa47b020337f
 
 install : $(TARGET)
 
@@ -116,7 +116,7 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 	ln -svf linux-$(VER) $(DIR_SRC)/linux
 
 	# Layer7-patch
-	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-5.15.59-layer7.patch
+	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-6.1-layer7.patch
 
 	# DVB Patches
 	cd $(DIR_APP) && patch -Np2 < $(DIR_SRC)/src/patches/v4l-dvb_fix_tua6034_pll.patch
@@ -143,13 +143,11 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 	# https://bugzilla.ipfire.org/show_bug.cgi?id=12760
 	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-5.15-NFQUEUE-Hold-RCU-read-lock-while-calling-nf_reinject.patch
 
-	# https://bugzilla.ipfire.org/show_bug.cgi?id=12889
-	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/devtmpfs-mount-with-noexec-and-nosuid.patch
+	# Fix external module compile
+	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-6.0-fix_external_module_build.patch
 
-	# https://lists.ipfire.org/pipermail/development/2022-October/014562.html
-	for i in $$(seq 1 14); do \
-		cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-5.15-wifi-security-patches-$$i.patch || exit 1; \
-	done
+	# Fix pmc compile dependency errors
+	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-6.0.7-platform-x86-amd-Fix-pmc-compile-dependency-errors.patch
 
 ifeq "$(BUILD_ARCH)" "armv6l"
 	# Apply Arm-multiarch kernel patches.
@@ -158,9 +156,6 @@ endif
 ifeq "$(BUILD_ARCH)" "aarch64"
 	# Apply Arm-multiarch kernel patches.
 	cd $(DIR_APP) && xzcat $(DIR_DL)/arm-multi-patches-$(ARM_PATCHES).patch.xz | patch -Np1
-	# Apply NXP DPAA2 specific patches
-	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-5.15-arm64-dpaa2-fix-lock-issue.patch
-	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-5-15-arm64-dpaa2-add-support-for-10g-modes.patch
 endif
 	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-3.14.79-amba-fix.patch
 

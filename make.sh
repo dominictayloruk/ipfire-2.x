@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="172"							# Core Level (Filename)
+CORE="173"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -1061,6 +1061,7 @@ buildbase() {
 	lfsmake2 zstd
 	lfsmake2 autoconf
 	lfsmake2 automake
+	lfsmake2 help2man
 	lfsmake2 libtool
 	lfsmake2 binutils
 	lfsmake2 gmp
@@ -1176,15 +1177,28 @@ buildipfire() {
   lfsmake2 xradio		KCFG=""
   lfsmake2 linux-initrd		KCFG=""
 
+  lfsmake2 expat
+  lfsmake2 libconfig
+  lfsmake2 curl
+  lfsmake2 libarchive
+  lfsmake2 cmake
+  lfsmake2 json-c
+  lfsmake2 tcl
+  lfsmake2 libffi
+  lfsmake2 gdbm
+  lfsmake2 sqlite
+  lfsmake2 python3
+  lfsmake2 python3-setuptools
+  lfsmake2 ninja
+  lfsmake2 meson
+  lfsmake2 glib
+  lfsmake2 libgudev
   lfsmake2 libgpg-error
   lfsmake2 libgcrypt
   lfsmake2 libassuan
   lfsmake2 nettle
   lfsmake2 libsodium
-  lfsmake2 json-c
-  lfsmake2 libconfig
   lfsmake2 libevent2
-  lfsmake2 expat
   lfsmake2 apr
   lfsmake2 aprutil
   lfsmake2 unbound
@@ -1195,15 +1209,9 @@ buildipfire() {
   lfsmake2 dhcpcd
   lfsmake2 boost
   lfsmake2 linux-atm
-  lfsmake2 gdbm
+  lfsmake2 libqmi
   lfsmake2 pam
   lfsmake2 c-ares
-  lfsmake2 curl
-  lfsmake2 tcl
-  lfsmake2 sqlite
-  lfsmake2 libffi
-  lfsmake2 python3
-  lfsmake2 rust
   lfsmake2 rust-dissimilar
   lfsmake2 rust-cfg-if
   lfsmake2 rust-libc
@@ -1211,6 +1219,7 @@ buildipfire() {
   lfsmake2 rust-typenum
   lfsmake2 rust-version-check
   lfsmake2 rust-generic-array
+  lfsmake2 rust-crypto-common
   lfsmake2 rust-cipher
   lfsmake2 rust-hex
   lfsmake2 rust-unicode-xid
@@ -1237,7 +1246,6 @@ buildipfire() {
   lfsmake2 rust-serde_json
   lfsmake2 rust-synstructure
   lfsmake2 rust-block-buffer
-  lfsmake2 rust-crypto-common
   lfsmake2 rust-digest
   lfsmake2 rust-ppv-lite86
   lfsmake2 rust-rand_core
@@ -1319,10 +1327,6 @@ buildipfire() {
   lfsmake2 libnl-3
   lfsmake2 libidn
   lfsmake2 nasm
-  lfsmake2 libarchive
-  lfsmake2 cmake
-  lfsmake2 ninja
-  lfsmake2 meson
   lfsmake2 libjpeg
   lfsmake2 openjpeg
   lfsmake2 libexif
@@ -1417,11 +1421,9 @@ buildipfire() {
   lfsmake2 perl-Crypt-PasswdMD5
   lfsmake2 perl-Net-Telnet
   lfsmake2 perl-JSON
-  lfsmake2 python3-setuptools
   lfsmake2 python3-inotify
   lfsmake2 python3-docutils
   lfsmake2 python3-daemon
-  lfsmake2 glib
   lfsmake2 ntp
   lfsmake2 openssh
   lfsmake2 fontconfig
@@ -1452,7 +1454,6 @@ buildipfire() {
   lfsmake2 vlan
   lfsmake2 wireless
   lfsmake2 pakfire
-  lfsmake2 spandsp
   lfsmake2 lz4
   lfsmake2 lzo
   lfsmake2 openvpn

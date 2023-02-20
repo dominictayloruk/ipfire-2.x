@@ -312,7 +312,6 @@ WARNING: translation string unused: host configuration
 WARNING: translation string unused: host deny
 WARNING: translation string unused: hostname and domain already in use
 WARNING: translation string unused: hours2
-WARNING: translation string unused: ibod for dual isdn only
 WARNING: translation string unused: icmp selected but no type
 WARNING: translation string unused: icmp type
 WARNING: translation string unused: id
@@ -356,10 +355,6 @@ WARNING: translation string unused: invert
 WARNING: translation string unused: ip address in use
 WARNING: translation string unused: ipfire side
 WARNING: translation string unused: iptable rules
-WARNING: translation string unused: isdn
-WARNING: translation string unused: isdn settings
-WARNING: translation string unused: isdn1
-WARNING: translation string unused: isdn2
 WARNING: translation string unused: javascript menu error1
 WARNING: translation string unused: javascript menu error2
 WARNING: translation string unused: kernel version
@@ -804,6 +799,9 @@ WARNING: untranslated string: MB written = MB written
 WARNING: untranslated string: MTU settings = MTU settings:
 WARNING: untranslated string: Number of Countries for the pie chart = Number of Countries for the pie chart
 WARNING: untranslated string: Scan for Songs = unknown string
+WARNING: untranslated string: access point name = Access Point Name
+WARNING: untranslated string: access point name is invalid = Access Point Name is invalid
+WARNING: untranslated string: access point name is required = Access Point Name is required
 WARNING: untranslated string: acpitemp = ACPI - Temperatures
 WARNING: untranslated string: addons = Add-Ons
 WARNING: untranslated string: administrator password = Administrator password
