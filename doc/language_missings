@@ -47,6 +47,7 @@
 < could not connect to www ipfire org
 < cryptographic settings
 < desired
+< dhcp fixed ip address in dynamic range
 < dhcp server disabled on blue interface
 < dhcp server enabled on blue interface
 < disable
@@ -102,9 +103,12 @@
 < access point name is required
 < addon
 < cpu frequency
+< dhcp fixed ip address in dynamic range
 < dns servers
 < hardware vulnerabilities
 < invalid ip or hostname
+< openvpn cert expires soon
+< openvpn cert has expired
 < service boot setting unavailable
 < transport mode does not support vti
 < wlanap
@@ -115,18 +119,14 @@
 < access point name
 < access point name is invalid
 < access point name is required
-< advproxy errmsg invalid url
 < ansi t1.483
 < bewan adsl pci st
 < bewan adsl usb
-< dh
-< email recipient invalid
+< dhcp fixed ip address in dynamic range
 < g.dtm
 < g.lite
-< guaranteed bandwidth
-< retbleed
-< service boot setting unavailable
-< show dh
+< openvpn cert expires soon
+< openvpn cert has expired
 < upload fcdsl.o
 ############################################################################
 # Checking cgi-bin translations for language: it                           #
@@ -157,7 +157,6 @@
 < advproxy wpad example dst_noproxy_url
 < advproxy wpad label dst_noproxy_ip
 < advproxy wpad label dst_noproxy_url
-< advproxy wpad notice
 < advproxy wpad title
 < advproxy wpad view pac
 < aliases default interface
@@ -252,6 +251,7 @@
 < dhcp dns update
 < dhcp dns update algo
 < dhcp dns update secret
+< dhcp fixed ip address in dynamic range
 < dhcp make fixed lease
 < dhcp valid range required when deny known clients checked
 < disable
@@ -470,6 +470,8 @@
 < one week
 < one year
 < open connections
+< openvpn cert expires soon
+< openvpn cert has expired
 < optional
 < otp qrcode
 < outgoing compression in bytes per second
@@ -659,7 +661,6 @@
 < advproxy wpad example dst_noproxy_url
 < advproxy wpad label dst_noproxy_ip
 < advproxy wpad label dst_noproxy_url
-< advproxy wpad notice
 < advproxy wpad title
 < advproxy wpad view pac
 < aliases default interface
@@ -756,6 +757,7 @@
 < dhcp dns update
 < dhcp dns update algo
 < dhcp dns update secret
+< dhcp fixed ip address in dynamic range
 < dhcp make fixed lease
 < disable
 < Disabled
@@ -997,6 +999,8 @@
 < one week
 < one year
 < open connections
+< openvpn cert expires soon
+< openvpn cert has expired
 < optional
 < otp qrcode
 < outgoing compression in bytes per second
@@ -1196,7 +1200,6 @@
 < advproxy wpad example dst_noproxy_url
 < advproxy wpad label dst_noproxy_ip
 < advproxy wpad label dst_noproxy_url
-< advproxy wpad notice
 < advproxy wpad title
 < advproxy wpad view pac
 < age second
@@ -1353,6 +1356,7 @@
 < dhcp dns update
 < dhcp dns update algo
 < dhcp dns update secret
+< dhcp fixed ip address in dynamic range
 < dhcp make fixed lease
 < dhcp valid range required when deny known clients checked
 < disable
@@ -1829,6 +1833,8 @@
 < one week
 < one year
 < open connections
+< openvpn cert expires soon
+< openvpn cert has expired
 < openvpn default
 < openvpn destination port used
 < openvpn disabled
@@ -2172,7 +2178,6 @@
 < advproxy wpad example dst_noproxy_url
 < advproxy wpad label dst_noproxy_ip
 < advproxy wpad label dst_noproxy_url
-< advproxy wpad notice
 < advproxy wpad title
 < advproxy wpad view pac
 < age second
@@ -2330,6 +2335,7 @@
 < dhcp dns update
 < dhcp dns update algo
 < dhcp dns update secret
+< dhcp fixed ip address in dynamic range
 < dhcp make fixed lease
 < dhcp valid range required when deny known clients checked
 < disable
@@ -2812,6 +2818,8 @@
 < one week
 < one year
 < open connections
+< openvpn cert expires soon
+< openvpn cert has expired
 < openvpn default
 < openvpn destination port used
 < openvpn disabled
@@ -3138,7 +3146,6 @@
 < advproxy wpad example dst_noproxy_url
 < advproxy wpad label dst_noproxy_ip
 < advproxy wpad label dst_noproxy_url
-< advproxy wpad notice
 < advproxy wpad title
 < advproxy wpad view pac
 < aliases default interface
@@ -3173,6 +3180,7 @@
 < desired
 < dh
 < dhcp deny known clients:
+< dhcp fixed ip address in dynamic range
 < dhcp make fixed lease
 < dhcp valid range required when deny known clients checked
 < disable
@@ -3316,6 +3324,8 @@
 < not validating
 < okay
 < open connections
+< openvpn cert expires soon
+< openvpn cert has expired
 < optional
 < otp qrcode
 < ovpn connection name

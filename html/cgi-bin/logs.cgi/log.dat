@@ -49,6 +49,7 @@ $cgiparams{'ACTION'} = '';
 $cgiparams{'SECTION'} = 'ipfire';
 
 my %sections = (
+        'apcupsd' => '(apcupsd\[.*?\]: )',
         'auth' => '(\w+\(pam_unix\)\[.*\]: )',
         'wio' => '(wio:|wio\[.*\])',
         'captive' => '(Captive:)',
@@ -59,6 +60,7 @@ my %sections = (
         'dhcp' => '(dhcpd: )',
         'dma' => '(dma: |dma\[.*\]: |postfix/\w*\[\d*\]: )',
         'guardian' => '(guardian\[.*\]: )',
+        'haproxy' => '(haproxy\[.*?\]: )',
         'ipblocklist' => '(ipblocklist: )',
         'ipfire' => '(ipfire: )',
         'ipsec' => '(ipsec_[\w_]+: |pluto\[.*\]: |charon: |vpnwatch: )',
@@ -74,13 +76,14 @@ my %sections = (
         'suricata' => '(suricata: )',
         'squid' => '(squid\[.*\]: |squid: )',
         'ssh' => '(sshd(?:\(.*\))?\[.*\]: )',
-        'unbound' => '(unbound: \[.*:.*\])(.*:.*$)',
+        'unbound' => '(unbound: \[.*?\])(.*:.*$)',
         'urlfilter bl' => '(installpackage\[urlfilter\]: )',
         'wireless' => '(hostapd:|kernel: ath.*:|kernel: wifi[0-9]:)'
 	 );
 
 # Translations for the %sections array.
 my %trsections = (
+        'apcupsd' => 'APCUPS',
         'auth' => "$Lang::tr{'loginlogout'}",
         'wio' => 'Who Is Online?',
         'captive' => $Lang::tr{'Captive'},
@@ -91,6 +94,7 @@ my %trsections = (
         'dhcp' => "$Lang::tr{'dhcp server'}",
         'dma' => 'Mail',
         'guardian' => "$Lang::tr{'guardian'}",
+        'haproxy' => 'HAProxy',
         'ipblocklist' => "$Lang::tr{'ipblocklist'}",
         'ipfire' => 'IPFire',
         'ipsec' => 'IPSec',
@@ -227,7 +231,7 @@ while ($gzindex >=0 && $loop) {
 	    #&General::log("reading $filestr");
 	    READ:while (<FILE>) {
 		my $line = $_;
-	 	if ($line =~ /^${monthstr} ${daystr} ..:..:.. [\w\-]+ ${section}(.*)/) {
+	 	if ($line =~ /^${monthstr} ${daystr} ..:..:.. [\w\-\.]+ ${section}(.*)/) {
 		    # when standard viewing, just keep in memory the correct slice
 		    # it starts a '$start' and size is $viewport
 		    # If export, then keep all lines...
@@ -272,7 +276,7 @@ if ($cgiparams{'ACTION'} eq $Lang::tr{'export'})
 
 	foreach $_ (@log)
 	{
-		/^... (..) (..:..:..) [\w\-]+ ${section}(.*)$/;
+		/^... (..) (..:..:..) [\w\-\.]+ ${section}(.*)$/;
 		my $day =  $1;
 		$day =~ tr / /0/;
 		my $time = $cgiparams{'DAY'} ? "$2" : "$day/$2" ;
@@ -395,7 +399,7 @@ $lines = 0;
 #print '<tt>';
 foreach $_ (@log)
 {
-	/^... (..) (..:..:..) [\w\-]+ ${section}(.*)$/;
+	/^... (..) (..:..:..) [\w\-\.]+ ${section}(.*)$/;
 	my $day =  $1;
 	$day =~ tr / /0/;
 	my $time = $cgiparams{'DAY'} ? "$2" : "$day/$2" ;

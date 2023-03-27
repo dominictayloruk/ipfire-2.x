@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2022  IPFire Team  info@ipfire.org                       #
+# Copyright (C) 2007-2023  IPFire Team  info@ipfire.org                       #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -46,19 +46,18 @@ if [ "${?}" == "0" ]; then
 	echo "Replace by xxxMACHINExxx !"
 fi
 
-grep -r '/armv6l' ./config/rootfiles/ --exclude gcc --exclude rust-libc \
-    --exclude-dir oldcore --exclude-dir armv5tel >/dev/null 2>&1
-if [ "${?}" == "0" ]; then
-	echo "Error! '/armv6l' in rootfiles files found!"
-	grep -r '/armv6l' ./config/rootfiles/ --exclude gcc \
-    --exclude-dir oldcore --exclude-dir armv5tel
-	echo "Replace by xxxMACHINExxx !"
-fi
-
 grep -r '/aarch64' ./config/rootfiles/ --exclude gcc --exclude rust-libc --exclude gdb --exclude liburcu --exclude gdb --exclude-dir oldcore --exclude-dir aarch64 >/dev/null 2>&1
 if [ "${?}" == "0" ]; then
 	echo "Error! '/aarch64' in rootfiles files found!"
 	grep -r '/aarch64' ./config/rootfiles/ --exclude gcc --exclude rust-libc \
     --exclude-dir oldcore --exclude-dir aarch64
+	echo "Replace by xxxMACHINExxx !"
+fi
+
+grep -r '/riscv64' ./config/rootfiles/ --exclude gcc --exclude rust-libc --exclude gdb --exclude liburcu --exclude go --exclude-dir oldcore --exclude-dir riscv64 >/dev/null 2>&1
+if [ "${?}" == "0" ]; then
+	echo "Error! '/riscv64' in rootfiles files found!"
+	grep -r '/riscv64' ./config/rootfiles/ --exclude gcc --exclude rust-libc --exclude go \
+    --exclude-dir oldcore --exclude-dir riscv64
 	echo "Replace by xxxMACHINExxx !"
 fi

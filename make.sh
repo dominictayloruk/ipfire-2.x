@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="173"							# Core Level (Filename)
+CORE="174"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -35,7 +35,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20220808
+TOOLCHAINVER=20230210
 
 # use multicore and max compression
 ZSTD_OPT="-T0 --ultra -22"
@@ -145,35 +145,21 @@ configure_build() {
 			BUILDTARGET="${build_arch}-pc-linux-gnu"
 			CROSSTARGET="${build_arch}-cross-linux-gnu"
 			BUILD_PLATFORM="x86"
-			CFLAGS_ARCH="-m64 -mtune=generic -fstack-clash-protection -fcf-protection"
+			CFLAGS_ARCH="-m64 -mtune=generic -fcf-protection"
 			;;
 
 		aarch64)
 			BUILDTARGET="${build_arch}-pc-linux-gnu"
 			CROSSTARGET="${build_arch}-cross-linux-gnu"
 			BUILD_PLATFORM="arm"
-			CFLAGS_ARCH="-fstack-clash-protection"
-			;;
-
-		armv7hl)
-			BUILDTARGET="${build_arch}-pc-linux-gnueabi"
-			CROSSTARGET="${build_arch}-cross-linux-gnueabi"
-			BUILD_PLATFORM="arm"
-			CFLAGS_ARCH="-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard"
-			;;
-
-		armv6l)
-			BUILDTARGET="${build_arch}-pc-linux-gnueabi"
-			CROSSTARGET="${build_arch}-cross-linux-gnueabi"
-			BUILD_PLATFORM="arm"
-			CFLAGS_ARCH="-march=armv6zk+fp -mfpu=vfp -mfloat-abi=softfp -fomit-frame-pointer"
+			CFLAGS_ARCH=""
 			;;
 
 		riscv64)
 			BUILDTARGET="${build_arch}-pc-linux-gnu"
 			CROSSTARGET="${build_arch}-cross-linux-gnu"
 			BUILD_PLATFORM="riscv"
-			CFLAGS_ARCH="-fstack-clash-protection"
+			CFLAGS_ARCH=""
 			;;
 
 		*)
@@ -196,7 +182,7 @@ configure_build() {
 	TOOLS_DIR="/tools_${BUILD_ARCH}"
 
 	# Enables hardening
-	HARDENING_CFLAGS="-Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-protector-strong"
+	HARDENING_CFLAGS="-Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-protector-strong -fstack-clash-protection"
 
 	CFLAGS="-O2 -pipe -Wall -fexceptions -fPIC ${CFLAGS_ARCH}"
 	CXXFLAGS="${CFLAGS}"
@@ -236,15 +222,6 @@ configure_build() {
 	# We allow XZ to use up to 70% of all system memory.
 	local xz_memory=$(( SYSTEM_MEMORY * 7 / 10 ))
 
-	# XZ memory cannot be larger than 2GB on 32 bit systems
-	case "${build_arch}" in
-		armv*)
-			if [ ${xz_memory} -gt 2048 ]; then
-				xz_memory=2048
-			fi
-			;;
-	esac
-
 	XZ_OPT="${XZ_OPT} --memory=${xz_memory}MiB"
 }
 
@@ -256,10 +233,6 @@ configure_build_guess() {
 
 		aarch64)
 			echo "aarch64"
-			;;
-
-		armv7*|armv6*)
-			echo "armv6l"
 			;;
 
 		riscv64)
@@ -1058,6 +1031,7 @@ buildbase() {
 	lfsmake2 tzdata
 	lfsmake2 cleanup-toolchain
 	lfsmake2 zlib
+	[ "${BUILD_ARCH}" = "riscv64" ] && lfsmake2 gcc PASS=A
 	lfsmake2 zstd
 	lfsmake2 autoconf
 	lfsmake2 automake
@@ -1141,7 +1115,6 @@ buildipfire() {
   lfsmake2 which
   lfsmake2 linux-firmware
   lfsmake2 dvb-firmwares
-  lfsmake2 xr819-firmware
   lfsmake2 zd1211-firmware
   lfsmake2 rpi-firmware
   lfsmake2 intel-microcode
@@ -1174,7 +1147,6 @@ buildipfire() {
   lfsmake2 rtl8812au		KCFG=""
   lfsmake2 rtl8822bu		KCFG=""
   lfsmake2 rtl8821cu		KCFG=""
-  lfsmake2 xradio		KCFG=""
   lfsmake2 linux-initrd		KCFG=""
 
   lfsmake2 expat
@@ -1522,6 +1494,7 @@ buildipfire() {
   lfsmake2 libstatgrab
   lfsmake2 liboping
   lfsmake2 collectd
+  lfsmake2 git
   lfsmake2 elinks
   lfsmake2 igmpproxy
   lfsmake2 opus
@@ -1559,7 +1532,6 @@ buildipfire() {
   lfsmake2 perl-Authen-SASL
   lfsmake2 perl-MIME-Lite
   lfsmake2 perl-Email-Date-Format
-  lfsmake2 git
   lfsmake2 squidclamav
   lfsmake2 vnstat
   lfsmake2 iw
@@ -1599,7 +1571,6 @@ buildipfire() {
   lfsmake2 swig
   lfsmake2 dtc
   lfsmake2 u-boot
-  lfsmake2 u-boot-friendlyarm
   lfsmake2 wireless-regdb
   lfsmake2 ddns
   lfsmake2 python3-pycparser
@@ -1791,9 +1762,6 @@ buildpackages() {
   ipfirepackages
 
   cd $BASEDIR
-
-  # remove not useable iso on armv6l (needed to build flash images)
-  [ "${BUILD_ARCH}" = "armv6l" ] && rm -rf *.iso
 
   for i in $(ls *.bz2 *.img.xz *.iso 2>/dev/null); do
 	b2sum $i > $i.b2

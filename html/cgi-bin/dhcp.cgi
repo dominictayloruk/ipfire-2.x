@@ -547,7 +547,8 @@ if ($dhcpsettings{'ACTION'} eq '' ) { # First launch from GUI
     $dhcpsettings{'ADVOPT_ENABLED'} = 'on';
     }
 
-&Header::openpage($Lang::tr{'dhcp configuration'}, 1, '');
+### START PAGE ###
+&Header::openpage($Lang::tr{'dhcp configuration'}, 1, $Header::extraHead);
 &Header::openbigbox('100%', 'left', '', $errormessage);
 
 if ($errormessage) {
@@ -843,11 +844,11 @@ foreach my $line (@current1) {
     }
 
     if ($dhcpsettings{'KEY1'} eq $key) {
-	print "<tr bgcolor='${Header::colouryellow}'>";
+	print "<tr class='colouryellow'>";
     } elsif ($key % 2) {
-	print "<tr bgcolor='$color{'color22'}'>";
+	print "<tr class='color22'>";
     } else {
-	print "<tr bgcolor='$color{'color20'}'>";
+	print "<tr class='color20'>";
     }
 
     print <<END
@@ -1020,8 +1021,9 @@ my $ipdup = 0;
 my %ipinuse = ();
 my %macdupl = (); # Duplicate MACs have to be on different subnets
 my %ipoutside = ();
+my %ipinrange = ();
 
-# mark duplicate ip or duplicate MAC
+# mark duplicate IP, duplicate MAC or IP in dynamic range
 foreach my $line (@current2) {
     my @temp = split(/\,/,$line);
     $macdupl{$temp[0]} += 1;
@@ -1032,14 +1034,21 @@ foreach my $line (@current2) {
     if ($ipinuse{$temp[1]} > 1) {
 	$ipdup = 1; 	# Flag up duplicates for use later
     }
-    # Mark IP addresses outwith known subnets
     $ipoutside{$temp[1]} = 1;
+    $ipinrange{$temp[1]} = 0;
     foreach my $itf (@ITFs) {
-        if ( &General::IpInSubnet($temp[1],
-                $netsettings{"${itf}_NETADDRESS"},
-                $netsettings{"${itf}_NETMASK"})) {
-            $ipoutside{$temp[1]} = 0;
-        }
+    # Mark IP addresses outwith known subnets
+            	if ( &General::IpInSubnet($temp[1],
+                	$netsettings{"${itf}_NETADDRESS"},
+                	$netsettings{"${itf}_NETMASK"})) {
+            	   $ipoutside{$temp[1]} = 0;
+        	}
+    # Mark IP addresses that overlap with dynamic range
+	    	if (&Network::ip_address_in_range($temp[1],
+		        $dhcpsettings{"START_ADDR_${itf}"},
+		        $dhcpsettings{"END_ADDR_${itf}"})) {
+            	   $ipinrange{$temp[1]} = 1;
+        	}        
     }
 }
 
@@ -1069,13 +1078,13 @@ foreach my $line (@current2) {
 
     if ($dhcpsettings{'KEY2'} eq $key) {
 	print "<tr>";
-	$col="bgcolor='${Header::colouryellow}'";
+	$col="class='colouryellow'";
     } elsif ($key % 2) {
 	print "<tr>";
-	$col="bgcolor='$color{'color20'}'";
+	$col="class='color20'";
     } else {
 	print "<tr>";
-	$col="bgcolor='$color{'color22'}'";
+	$col="class='color22'";
     }
     my $TAG0 = '';
     my $TAG1 = '';
@@ -1091,12 +1100,15 @@ foreach my $line (@current2) {
 	$TAG3 = '</b>';
     }
     if ($ipoutside{$temp[1]} > 0) {
-	$TAG4 = "bgcolor='orange'" if ($dhcpsettings{'KEY2'} ne $key);
+	$TAG4 = "class='orange'" if ($dhcpsettings{'KEY2'} ne $key);
+    }
+    if ($ipinrange{$temp[1]} > 0) { 
+	$TAG4 = "class='red'" if ($dhcpsettings{'KEY2'} ne $key);
     }
 
     print <<END
 <td align='center' $col>$TAG2$temp[0]$TAG3</td>
-<td align='center' $col $TAG4>$TAG0$temp[1]$TAG1</td>
+<td align='center' $TAG4 $col>$TAG0$temp[1]$TAG1</td>
 <td align='center' $col>$temp[6]&nbsp;</td>
 <td align='center' $col>$temp[3]&nbsp;</td>
 <td align='center' $col>$temp[4]&nbsp;</td>
@@ -1153,8 +1165,10 @@ print <<END
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td bgcolor='orange'>&nbsp;</td>
-	<td class='base'>$Lang::tr{'ip address outside subnets'}</td>
+	<td>&nbsp;</td>
+	<td class='base orange'>$Lang::tr{'ip address outside subnets'}</td>
+        <td>&nbsp;&nbsp</td>
+        <td class='base red'>$Lang::tr{'dhcp fixed ip address in dynamic range'}</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	$dup

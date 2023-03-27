@@ -369,7 +369,7 @@ $selected{'NOT_ACCESSED_LAST'}{$xlratorsettings{'NOT_ACCESSED_LAST'}} = "selecte
 
 &Header::showhttpheaders();
 
-&Header::openpage($Lang::tr{'updxlrtr configuration'}, 1, '');
+&Header::openpage($Lang::tr{'updxlrtr configuration'}, 1, $Header::extraHead);
 
 &Header::openbigbox('100%', 'left', '', $errormessage);
 
@@ -532,9 +532,9 @@ END
 
 			$id++;
 			if ($id % 2) {
-				print "<tr bgcolor='$Header::table1colour'>\n"; }
+				print "<tr class='table1colour'>\n"; }
 			else {
-				print "<tr bgcolor='$Header::table2colour'>\n"; }
+				print "<tr class='table2colour'>\n"; }
 
 			$filesize = $size_updatefile;
 			1 while $filesize =~ s/^(-?\d+)(\d{3})/$1.$2/;
@@ -823,9 +823,9 @@ foreach (@vendors)
 
 	$id++;
 	if ($id % 2) {
-		print "<tr bgcolor=''$color{'color20'}'>\n"; }
+		print "<tr class='color20'>\n"; }
 	else {
-		print "<tr bgcolor=''$color{'color22'}'>\n"; }
+		print "<tr class='color22'>\n"; }
 
 	print "<td class='base' align='center'><nobr>&nbsp;";
 
@@ -1162,9 +1162,9 @@ END
 
 		$id++;
 		if ($id % 2) {
-			print "<tr bgcolor='$Header::table1colour'>\n"; }
+			print "<tr class='table1colour'>\n"; }
 		else {
-			print "<tr bgcolor='$Header::table2colour'>\n"; }
+			print "<tr class='table2colour'>\n"; }
 
 		$filesize = $size_updatefile;
 		1 while $filesize =~ s/^(-?\d+)(\d{3})/$1.$2/;
@@ -1522,22 +1522,20 @@ sub savesettings
 sub percentbar
 {
   my $percent = $_[0];
-  my $fg = '#a0a0a0';
-  my $bg = '#e2e2e2';
 
   if ($percent =~ m/^(\d+)%$/ )
   {
     print <<END
-<table width='100' border='1' cellspacing='0' cellpadding='0' style='border-width:1px;border-style:solid;border-color:$fg;width:100px;height:10px;'>
+<table width='100' border='1' cellspacing='0' cellpadding='0' class='percent-box'>
 <tr>
 END
 ;
     if ($percent eq "100%") {
-      print "<td width='100%' bgcolor='$fg' style='background-color:$fg;border-style:solid;border-width:1px;border-color:$bg'>"
+      print "<td width='100%' class='percent-bar'>"
     } elsif ($percent eq "0%") {
-      print "<td width='100%' bgcolor='$bg' style='background-color:$bg;border-style:solid;border-width:1px;border-color:$bg'>"
+      print "<td width='100%' class='percent-space'>"
     } else {
-      print "<td width='$percent' bgcolor='$fg' style='background-color:$fg;border-style:solid;border-width:1px;border-color:$bg'></td><td width='" . (100-$1) . "%' bgcolor='$bg' style='background-color:$bg;border-style:solid;border-width:1px;border-color:$bg'>"
+      print "<td width='$percent' class='percent-bar'></td><td width='" . (100-$1) . "%' class='percent-space'>"
     }
     print <<END
 <img src='/images/null.gif' width='1' height='1' alt='' /></td></tr></table>

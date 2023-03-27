@@ -41,6 +41,51 @@ $Header::colourvpn = '#990099';
 $Header::colourerr = '#FF0000';
 $Header::viewsize = 150;
 $Header::errormessage = '';
+$Header::extraHead = <<END
+<style>
+	.color20 {
+		background-color: $color{'color20'};
+	}
+	.color22 {
+		background-color: $color{'color22'};
+	}
+	.colouryellow {
+		background-color: $Header::colouryellow;
+	}
+	.orange {
+		background-color: orange;
+	}	
+	.red {
+		background-color: red;
+	}			
+	.table1colour {
+		background-color: $Header::table1colour;
+	}
+	.table2colour {
+		background-color: $Header::table2colour;
+	}
+	.percent-box {
+		border-style: solid;
+		border-width: 1px;
+		border-color: #a0a0a0;
+		width: 100px;
+		height: 10px;
+	}
+	.percent-bar {
+		background-color: #a0a0a0;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e2e2e2;
+	}
+	.percent-space {
+		background-color: #e2e2e2;
+		border-style: solid;
+		border-width: 1px;
+		border-color: #e2e2e2;
+	}
+</style>
+END
+;
 my %menuhash = ();
 my $menu = \%menuhash;
 %settings = ();

@@ -44,11 +44,6 @@ ifeq "$(BUILD_ARCH)" "aarch64"
 	KERNEL_TARGET = Image
 endif
 
-ifeq "$(BUILD_ARCH)" "armv6l"
-	KERNEL_ARCH  = arm
-	KERNEL_TARGET = zImage
-endif
-
 ifeq "$(BUILD_ARCH)" "riscv64"
 	KERNEL_ARCH   = riscv
 	KERNEL_TARGET = Image.gz
@@ -72,7 +67,9 @@ endif
 ###############################################################################
 # Top-level Rules
 ###############################################################################
-objects =$(DL_FILE) \
+
+objects = \
+	$(DL_FILE) \
 	arm-multi-patches-$(ARM_PATCHES).patch.xz
 
 $(DL_FILE)					= $(URL_IPFIRE)/$(DL_FILE)
@@ -149,10 +146,6 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 	# Fix pmc compile dependency errors
 	cd $(DIR_APP) && patch -Np1 < $(DIR_SRC)/src/patches/linux/linux-6.0.7-platform-x86-amd-Fix-pmc-compile-dependency-errors.patch
 
-ifeq "$(BUILD_ARCH)" "armv6l"
-	# Apply Arm-multiarch kernel patches.
-	cd $(DIR_APP) && xzcat $(DIR_DL)/arm-multi-patches-$(ARM_PATCHES).patch.xz | patch -Np1
-endif
 ifeq "$(BUILD_ARCH)" "aarch64"
 	# Apply Arm-multiarch kernel patches.
 	cd $(DIR_APP) && xzcat $(DIR_DL)/arm-multi-patches-$(ARM_PATCHES).patch.xz | patch -Np1
