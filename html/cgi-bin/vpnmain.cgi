@@ -193,7 +193,7 @@ sub cleanssldatabase {
 		close FILE;
 	}
 	if (open(FILE, ">${General::swroot}/certs/index.txt.attr")) {
-		print FILE "";
+		print FILE "unique_subject = yes";
 		close FILE;
 	}
 	unlink ("${General::swroot}/certs/index.txt.old");
@@ -213,6 +213,7 @@ sub newcleanssldatabase {
 	}
 	if (! -s ">${General::swroot}/certs/index.txt.attr") {
 		open(FILE, ">${General::swroot}/certs/index.txt.attr");
+		print FILE "unique_subject = yes";
 		close(FILE);
 	}
 	unlink ("${General::swroot}/certs/index.txt.old");
@@ -869,6 +870,8 @@ END
 } elsif ($cgiparams{'ACTION'} eq $Lang::tr{'generate root/host certificates'} ||
 	$cgiparams{'ACTION'} eq $Lang::tr{'upload p12 file'}) {
 
+	&newcleanssldatabase();
+
 	if (-f "${General::swroot}/ca/cacert.pem") {
 		$errormessage = $Lang::tr{'valid root certificate already exists'};
 		goto ROOTCERT_SKIP;
@@ -907,7 +910,7 @@ END
 		# Extract the CA certificate from the file
 		&General::log("ipsec", "Extracting caroot from p12...");
 		if (open(STDIN, "-|")) {
-			my $opt = " pkcs12 -cacerts -nokeys";
+			my $opt = " pkcs12 -legacy -cacerts -nokeys";
 			$opt .= " -in $filename";
 			$opt .= " -out /tmp/newcacert";
 			$errormessage = &callssl ($opt);
@@ -920,7 +923,7 @@ END
 		if (!$errormessage) {
 			&General::log("ipsec", "Extracting host cert from p12...");
 			if (open(STDIN, "-|")) {
-				my $opt = " pkcs12 -clcerts -nokeys";
+				my $opt = " pkcs12 -legacy -clcerts -nokeys";
 				$opt .= " -in $filename";
 				$opt .= " -out /tmp/newhostcert";
 				$errormessage = &callssl ($opt);
@@ -934,7 +937,7 @@ END
 		if (!$errormessage) {
 			&General::log("ipsec", "Extracting private key from p12...");
 			if (open(STDIN, "-|")) {
-				my $opt = " pkcs12 -nocerts -nodes";
+				my $opt = " pkcs12 -legacy -nocerts -nodes";
 				$opt .= " -in $filename";
 				$opt .= " -out /tmp/newhostkey";
 				$errormessage = &callssl ($opt);
@@ -1939,7 +1942,7 @@ END
 		# Extract the CA certificate from the file
 		&General::log("ipsec", "Extracting caroot from p12...");
 		if (open(STDIN, "-|")) {
-			my $opt = " pkcs12 -cacerts -nokeys";
+			my $opt = " pkcs12 -legacy -cacerts -nokeys";
 			$opt .= " -in $filename";
 			$opt .= " -out /tmp/newcacert";
 			$errormessage = &callssl ($opt);
@@ -1952,7 +1955,7 @@ END
 		if (!$errormessage) {
 			&General::log("ipsec", "Extracting host cert from p12...");
 			if (open(STDIN, "-|")) {
-				my $opt = " pkcs12 -clcerts -nokeys";
+				my $opt = " pkcs12 -legacy -clcerts -nokeys";
 				$opt .= " -in $filename";
 				$opt .= " -out /tmp/newhostcert";
 				$errormessage = &callssl ($opt);
@@ -2197,7 +2200,7 @@ END
 
 		# Create the pkcs12 file
 		&General::log("ipsec", "Packing a pkcs12 file...");
-		$opt = " pkcs12 -export";
+		$opt = " pkcs12 -legacy -export";
 		$opt .= " -inkey ${General::swroot}/certs/$cgiparams{'NAME'}key.pem";
 		$opt .= " -in ${General::swroot}/certs/$cgiparams{'NAME'}cert.pem";
 		$opt .= " -name \"$cgiparams{'NAME'}\"";

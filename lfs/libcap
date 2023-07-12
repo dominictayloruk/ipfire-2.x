@@ -1,7 +1,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2022  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2023  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -24,7 +24,7 @@
 
 include Config
 
-VER        = 2.66
+VER        = 2.69
 
 THISAPP    = libcap-$(VER)
 DL_FILE    = $(THISAPP).tar.xz
@@ -40,7 +40,7 @@ objects = $(DL_FILE)
 
 $(DL_FILE) = $(DL_FROM)/$(DL_FILE)
 
-$(DL_FILE)_BLAKE2 = e79bf10c6a3dbffe96dc97aad0bed67caa0b3805d9dcaff1e4a8a833396ee5c6da4f7f0d321b254e99a00073bc39021b9f3a4b350d93094d0df4d74889b3ca56
+$(DL_FILE)_BLAKE2 = 94d1fef7666a1c383a8b96f1f6092bd242164631532868b628d2f5de71b42a371d041a978ef7fbadfee3eeb433165444995d1078cd790275bc0433a7875a697e
 
 install : $(TARGET)
 
@@ -72,10 +72,13 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 	@rm -rf $(DIR_APP) && cd $(DIR_SRC) && tar axf $(DIR_DL)/$(DL_FILE)
 	# Prevent a static library from being installed
 	cd $(DIR_APP) && sed -i '/install -m.*STA/d' libcap/Makefile
-	cd $(DIR_APP) && make GOLANG=no
-	cd $(DIR_APP) && make install GOLANG=no
-	rm -vf /lib/libcap.so
-	ln -svf /lib/libcap.so.2.66 /usr/lib/libcap.so
-	chmod +x /lib/libcap.so.*
+	cd $(DIR_APP) && make GOLANG=no \
+				  prefix=/usr \
+				  exec_prefix= \
+				  lib_prefix=/usr
+	cd $(DIR_APP) && make install GOLANG=no \
+				  prefix=/usr \
+				  exec_prefix= \
+				  lib_prefix=/usr
 	@rm -rf $(DIR_APP)
 	@$(POSTBUILD)

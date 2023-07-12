@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2022  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2023  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="174"							# Core Level (Filename)
+CORE="176"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -35,7 +35,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20230210
+TOOLCHAINVER=20230620
 
 # use multicore and max compression
 ZSTD_OPT="-T0 --ultra -22"
@@ -1566,7 +1566,6 @@ buildipfire() {
   lfsmake2 zerofree
   lfsmake2 minicom
   lfsmake2 ddrescue
-  lfsmake2 powertop
   lfsmake2 parted
   lfsmake2 swig
   lfsmake2 dtc
@@ -1607,12 +1606,13 @@ buildipfire() {
   lfsmake2 python3-terminaltables
   lfsmake2 python3-pkgconfig
   lfsmake2 python3-msgpack
-  lfsmake2 python3-attr
   lfsmake2 python3-attrs
   lfsmake2 python3-sniffio
   lfsmake2 python3-sortedcontainers
   lfsmake2 python3-outcome
   lfsmake2 python3-async_generator
+  lfsmake2 python3-flit_scm
+  lfsmake2 python3-exceptiongroup
   lfsmake2 python3-trio
   lfsmake2 python3-pyfuse3
   lfsmake2 aws-cli
@@ -1709,6 +1709,7 @@ buildipfire() {
   lfsmake2 perl-Imager-QRCode
   lfsmake2 perl-MIME-Base32
   lfsmake2 perl-URI-Encode
+  lfsmake2 rsnapshot
 }
 
 buildinstaller() {

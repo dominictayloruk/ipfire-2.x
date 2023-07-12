@@ -26,7 +26,7 @@ include Config
 
 SUMMARY    = Zabbix Agent
 
-VER        = 6.0.6
+VER        = 6.0.16
 
 THISAPP    = zabbix-$(VER)
 DL_FILE    = $(THISAPP).tar.gz
@@ -34,7 +34,7 @@ DL_FROM    = $(URL_IPFIRE)
 DIR_APP    = $(DIR_SRC)/$(THISAPP)
 TARGET     = $(DIR_INFO)/$(THISAPP)
 PROG       = zabbix_agentd
-PAK_VER    = 6
+PAK_VER    = 8
 
 DEPS       = fping
 
@@ -48,7 +48,7 @@ objects = $(DL_FILE)
 
 $(DL_FILE) = $(DL_FROM)/$(DL_FILE)
 
-$(DL_FILE)_BLAKE2 = f9d07ca8938ae4e5e47048c32872644caeda0ecdef17513c63c63d1ce2aaa4ac0c92e6c70932bc598ff908419dae05bab32924f5973a5528b5668f7c7c2c5a17
+$(DL_FILE)_BLAKE2 = 87f7c043f30ef9902b3673e2d444e37b32ef998d178fa5718ed9aa098f841f23237d79e54985ba3a415a86433a685387af33810f53a78837be6a1aa2870ed65a
 
 install : $(TARGET)
 
@@ -114,10 +114,6 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 	# Create directory for additional agent modules
 	-mkdir -pv /usr/lib/zabbix
 
-	# Create directory for logging
-	-mkdir -pv /var/log/zabbix
-	chown zabbix.zabbix /var/log/zabbix
-
 	# Create directory for pid.
 	-mkdir -pv /var/run/zabbix
 	chown zabbix.zabbix /var/run/zabbix
@@ -134,11 +130,6 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 	# Install include file for backup
 	install -v -m 644 $(DIR_SRC)/config/backup/includes/zabbix_agentd \
 		/var/ipfire/backup/addons/includes/zabbix_agentd
-
-	# Install include file for Logrotate
-	-mkdir -pv /etc/logrotate.d
-	install -v -m 644 $(DIR_SRC)/config/zabbix_agentd/logrotate \
-		/etc/logrotate.d/zabbix_agentd
 
 	@rm -rf $(DIR_APP)
 	@$(POSTBUILD)

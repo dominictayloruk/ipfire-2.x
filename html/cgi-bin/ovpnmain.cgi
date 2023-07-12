@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2022  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2023  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -138,6 +138,17 @@ unless (-e "$local_clientconf") {
 ###
 ### Useful functions
 ###
+sub iscertlegacy
+{
+	my $file=$_[0];
+	my @certinfo = &General::system_output("/usr/bin/openssl", "pkcs12", "-info", "-nodes", 
+	"-in", "$file.p12", "-noout", "-passin", "pass:''");
+	if (index ($certinfo[0], "MAC: sha1") != -1) {
+		return 1;
+	}
+	return 0;
+}
+
 sub haveOrangeNet
 {
 	if ($netsettings{'CONFIG_TYPE'} == 2) {return 1;}
@@ -494,7 +505,7 @@ sub modccdnet
 	my %ccdhash=();
 
 	# Check if the new name is valid.
-	if(!&General::validhostname($newname)) {
+	if(!&General::validccdname($newname)) {
 		$errormessage=$Lang::tr{'ccd err invalidname'};
 		return;
 	}
@@ -1115,6 +1126,9 @@ unless(-d "${General::swroot}/ovpn/n2nconf/$cgiparams{'NAME'}"){mkdir "${General
   print CLIENTCONF "# Activate Management Interface and Port\n";
   if ($cgiparams{'OVPN_MGMT'} eq '') {print CLIENTCONF "management localhost $cgiparams{'DEST_PORT'}\n"}
   else {print CLIENTCONF "management localhost $cgiparams{'OVPN_MGMT'}\n"};
+  if (&iscertlegacy("${General::swroot}/ovpn/certs/$cgiparams{'NAME'}")) {
+    	print CLIENTCONF "providers legacy default\n";
+  }
   close(CLIENTCONF);
 
 }
@@ -2156,6 +2170,10 @@ if ($confighash{$cgiparams{'KEY'}}[3] eq 'net'){
    if ($confighash{$cgiparams{'KEY'}}[22] eq '') {print CLIENTCONF "management localhost $confighash{$cgiparams{'KEY'}}[29]\n"}
     else {print CLIENTCONF "management localhost $confighash{$cgiparams{'KEY'}}[22]\n"};
    print CLIENTCONF "# remsub $confighash{$cgiparams{'KEY'}}[11]\n";
+  if (&iscertlegacy("${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1]")) {
+    	print CLIENTCONF "providers legacy default\n";
+  }
+
 
 
     close(CLIENTCONF);
@@ -2227,10 +2245,18 @@ else
 
 		# Extract the certificate
 		# This system call is safe, because all arguments are passed as an array.
-		system('/usr/bin/openssl', 'pkcs12', '-in', "${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1].p12",
-			'-clcerts', '-nokeys', '-nodes', '-out', "$file_crt" , '-passin', 'pass:');
-		if ($?) {
-			die "openssl error: $?";
+		if (&iscertlegacy("${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1]")) {
+			system('/usr/bin/openssl', 'pkcs12', '-legacy', '-in', "${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1].p12",
+				'-clcerts', '-nokeys', '-nodes', '-out', "$file_crt" , '-passin', 'pass:');
+			if ($?) {
+				die "openssl error: $?";
+			}
+		} else {
+			system('/usr/bin/openssl', 'pkcs12', '-in', "${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1].p12",
+				'-clcerts', '-nokeys', '-nodes', '-out', "$file_crt" , '-passin', 'pass:');
+			if ($?) {
+				die "openssl error: $?";
+			}
 		}
 
 		$zip->addFile("$file_crt", "$confighash{$cgiparams{'KEY'}}[1].pem") or die;
@@ -2238,10 +2264,18 @@ else
 
 		# Extract the key
 		# This system call is safe, because all arguments are passed as an array.
-		system('/usr/bin/openssl', 'pkcs12', '-in', "${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1].p12",
-			'-nocerts', '-nodes', '-out', "$file_key", '-passin', 'pass:');
-		if ($?) {
-			die "openssl error: $?";
+		if (&iscertlegacy("${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1]")) {
+			system('/usr/bin/openssl', 'pkcs12', '-legacy', '-in', "${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1].p12",
+				'-nocerts', '-nodes', '-out', "$file_key", '-passin', 'pass:');
+			if ($?) {
+				die "openssl error: $?";
+			}
+		} else {
+			system('/usr/bin/openssl', 'pkcs12', '-in', "${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1].p12",
+				'-nocerts', '-nodes', '-out', "$file_key", '-passin', 'pass:');
+			if ($?) {
+				die "openssl error: $?";
+			}
 		}
 
 		$zip->addFile("$file_key", "$confighash{$cgiparams{'KEY'}}[1].key") or die;
@@ -2299,6 +2333,11 @@ else
 
     # If the server is asking for TOTP this needs to happen interactively
     print CLIENTCONF "auth-retry interact\r\n";
+
+    # Add provider line if certificate is legacy type
+    if (&iscertlegacy("${General::swroot}/ovpn/certs/$confighash{$cgiparams{'KEY'}}[1]")) {
+	print CLIENTCONF "providers legacy default\r\n";
+    }
 
     if ($include_certs) {
 	print CLIENTCONF "\r\n";
@@ -3296,6 +3335,10 @@ END
 	print FILE "# Logfile\n";
 	print FILE "status-version 1\n";
 	print FILE "status /var/run/openvpn/$n2nname[0]-n2n 10\n";
+	if (&iscertlegacy("${General::swroot}/ovpn/certs/$cgiparams{'n2nname'}")) {
+	    	print CLIENTCONF "providers legacy default\n";
+	}
+
 	close FILE;
 
 	unless(move("$tempdir/$uplconffilename", "${General::swroot}/ovpn/n2nconf/$n2nname[0]/$uplconffilename2")) {
@@ -5354,26 +5397,37 @@ END
 		}
 	if ($confighash{$key}[0] eq 'on') { $gif = 'on.gif'; } else { $gif = 'off.gif'; }
 
-	# Fetch information about the certificate
-	my @cavalid = &General::system_output("/usr/bin/openssl", "x509", "-text",
-		"-in", "${General::swroot}/ovpn/certs/$confighash{$key}[1]cert.pem");
-
-	my $expiryDate = 0;
-
-	# Parse the certificate information
-	foreach my $line (@cavalid) {
-		if ($line =~ /Not After : (.*)[\n]/) {
-			$expiryDate = &Date::Parse::str2time($1);
-			last;
-		}
-	}
-
-	# Calculate the remaining time
-	my $remainingTime = $expiryDate - time();
-
 	# Create some simple booleans to check the status
-	my $hasExpired = ($remainingTime <= 0);
-	my $expiresSoon = ($remainingTime <= 30 * 24 * 3600);
+	my $hasExpired;
+	my $expiresSoon;
+
+	# Fetch information about the certificate for non-N2N connections only
+	if ($confighash{$key}[3] ne 'net') {
+		my @cavalid = &General::system_output("/usr/bin/openssl", "x509", "-text",
+			"-in", "${General::swroot}/ovpn/certs/$confighash{$key}[1]cert.pem");
+
+		my $expiryDate = 0;
+
+		# Parse the certificate information
+		foreach my $line (@cavalid) {
+			if ($line =~ /Not After : (.*)[\n]/) {
+				$expiryDate = &Date::Parse::str2time($1);
+				last;
+			}
+		}
+
+		# Calculate the remaining time
+		my $remainingTime = $expiryDate - time();
+
+		# Determine whether the certificate has already expired, or will so soon
+		$hasExpired = ($remainingTime <= 0);
+		$expiresSoon = ($remainingTime <= 30 * 24 * 3600);
+
+	} else {
+		# Populate booleans with dummy values for N2N connections (#13066)
+		$hasExpired = 0;
+		$expiresSoon = 0;
+	}
 
 	print "<tr>";
 
