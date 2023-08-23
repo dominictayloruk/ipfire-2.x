@@ -24,7 +24,7 @@
 
 include Config
 
-VER        = 5.9
+VER        = 6.2
 
 THISAPP    = squid-$(VER)
 DL_FILE    = $(THISAPP).tar.xz
@@ -46,7 +46,7 @@ objects = $(DL_FILE)
 
 $(DL_FILE) = $(DL_FROM)/$(DL_FILE)
 
-$(DL_FILE)_BLAKE2 = 898a34357f8019291379ea37c66fa312e1a6437e8f643987dd4e54d7d52728248e16129b00195c5f6e0378c0f32c9f9ade3f98ca0ec4bb952f9f443357face82
+$(DL_FILE)_BLAKE2 = e934371e40093b1570c88c76f9427089087d2fa0b16629e7ca3afabd17f7bc5592b2b65354da54ebc43350ab6732081dd39a39e5db712f70a48246c22b8ae45d
 
 install : $(TARGET)
 
@@ -117,6 +117,7 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 		--enable-build-info \
 		--enable-eui \
 		--enable-async-io=16 \
+		--enable-translation \
 		--enable-unlinkd \
 		--enable-internal-dns \
 		--enable-epoll \

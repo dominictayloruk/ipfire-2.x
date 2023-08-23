@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="176"							# Core Level (Filename)
+CORE="179"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -145,14 +145,14 @@ configure_build() {
 			BUILDTARGET="${build_arch}-pc-linux-gnu"
 			CROSSTARGET="${build_arch}-cross-linux-gnu"
 			BUILD_PLATFORM="x86"
-			CFLAGS_ARCH="-m64 -mtune=generic -fcf-protection"
+			CFLAGS_ARCH="-m64 -mtune=generic -fcf-protection=full"
 			;;
 
 		aarch64)
 			BUILDTARGET="${build_arch}-pc-linux-gnu"
 			CROSSTARGET="${build_arch}-cross-linux-gnu"
 			BUILD_PLATFORM="arm"
-			CFLAGS_ARCH=""
+			CFLAGS_ARCH="-mbranch-protection=standard"
 			;;
 
 		riscv64)
@@ -767,8 +767,8 @@ qemu_environ() {
 			;;
 		riscv64)
 			QEMU_CPU="${QEMU_CPU:-sifive-u54}"
-
-			env="${env} QEMU_CPU=${QEMU_CPU}"
+			G_SLICE="always-malloc"
+			env="${env} QEMU_CPU=${QEMU_CPU} G_SLICE=${G_SLICE}"
 			;;
 	esac
 
@@ -1113,12 +1113,6 @@ buildipfire() {
   lfsmake2 pptp
   lfsmake2 unzip
   lfsmake2 which
-  lfsmake2 linux-firmware
-  lfsmake2 dvb-firmwares
-  lfsmake2 zd1211-firmware
-  lfsmake2 rpi-firmware
-  lfsmake2 intel-microcode
-  lfsmake2 pcengines-apu-firmware
   lfsmake2 bc
   lfsmake2 u-boot MKIMAGE=1
   lfsmake2 cpio
@@ -1138,17 +1132,6 @@ buildipfire() {
   lfsmake2 iproute2
   lfsmake2 screen
   lfsmake2 elfutils
-
-  # Kernelbuild ... current we have no platform that need
-  # multi kernel builds so KCFG is empty
-  lfsmake2 linux		KCFG=""
-  lfsmake2 rtl8189es		KCFG=""
-  lfsmake2 rtl8189fs		KCFG=""
-  lfsmake2 rtl8812au		KCFG=""
-  lfsmake2 rtl8822bu		KCFG=""
-  lfsmake2 rtl8821cu		KCFG=""
-  lfsmake2 linux-initrd		KCFG=""
-
   lfsmake2 expat
   lfsmake2 libconfig
   lfsmake2 curl
@@ -1471,7 +1454,6 @@ buildipfire() {
   lfsmake2 libvorbis
   lfsmake2 flac
   lfsmake2 lame
-  lfsmake2 sox
   lfsmake2 soxr
   lfsmake2 libshout
   lfsmake2 xvid
@@ -1495,6 +1477,12 @@ buildipfire() {
   lfsmake2 liboping
   lfsmake2 collectd
   lfsmake2 git
+  lfsmake2 linux-firmware
+  lfsmake2 dvb-firmwares
+  lfsmake2 zd1211-firmware
+  lfsmake2 rpi-firmware
+  lfsmake2 intel-microcode
+  lfsmake2 pcengines-apu-firmware
   lfsmake2 elinks
   lfsmake2 igmpproxy
   lfsmake2 opus
@@ -1532,7 +1520,6 @@ buildipfire() {
   lfsmake2 perl-Authen-SASL
   lfsmake2 perl-MIME-Lite
   lfsmake2 perl-Email-Date-Format
-  lfsmake2 squidclamav
   lfsmake2 vnstat
   lfsmake2 iw
   lfsmake2 wpa_supplicant
@@ -1710,6 +1697,16 @@ buildipfire() {
   lfsmake2 perl-MIME-Base32
   lfsmake2 perl-URI-Encode
   lfsmake2 rsnapshot
+
+  # Kernelbuild ... current we have no platform that need
+  # multi kernel builds so KCFG is empty
+  lfsmake2 linux		KCFG=""
+  lfsmake2 rtl8189es		KCFG=""
+  lfsmake2 rtl8189fs		KCFG=""
+  lfsmake2 rtl8812au		KCFG=""
+  lfsmake2 rtl8822bu		KCFG=""
+  lfsmake2 rtl8821cu		KCFG=""
+  lfsmake2 linux-initrd		KCFG=""
 }
 
 buildinstaller() {

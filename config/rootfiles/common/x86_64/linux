@@ -6112,9 +6112,6 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/fs/ceph
 #lib/modules/KVER-ipfire/build/fs/ceph/Kconfig
 #lib/modules/KVER-ipfire/build/fs/ceph/Makefile
-#lib/modules/KVER-ipfire/build/fs/cifs
-#lib/modules/KVER-ipfire/build/fs/cifs/Kconfig
-#lib/modules/KVER-ipfire/build/fs/cifs/Makefile
 #lib/modules/KVER-ipfire/build/fs/coda
 #lib/modules/KVER-ipfire/build/fs/coda/Kconfig
 #lib/modules/KVER-ipfire/build/fs/coda/Makefile
@@ -6205,9 +6202,6 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/fs/kernfs
 #lib/modules/KVER-ipfire/build/fs/kernfs/Kconfig
 #lib/modules/KVER-ipfire/build/fs/kernfs/Makefile
-#lib/modules/KVER-ipfire/build/fs/ksmbd
-#lib/modules/KVER-ipfire/build/fs/ksmbd/Kconfig
-#lib/modules/KVER-ipfire/build/fs/ksmbd/Makefile
 #lib/modules/KVER-ipfire/build/fs/lockd
 #lib/modules/KVER-ipfire/build/fs/lockd/Makefile
 #lib/modules/KVER-ipfire/build/fs/minix
@@ -6297,8 +6291,17 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/fs/romfs
 #lib/modules/KVER-ipfire/build/fs/romfs/Kconfig
 #lib/modules/KVER-ipfire/build/fs/romfs/Makefile
-#lib/modules/KVER-ipfire/build/fs/smbfs_common
-#lib/modules/KVER-ipfire/build/fs/smbfs_common/Makefile
+#lib/modules/KVER-ipfire/build/fs/smb
+#lib/modules/KVER-ipfire/build/fs/smb/Kconfig
+#lib/modules/KVER-ipfire/build/fs/smb/Makefile
+#lib/modules/KVER-ipfire/build/fs/smb/client
+#lib/modules/KVER-ipfire/build/fs/smb/client/Kconfig
+#lib/modules/KVER-ipfire/build/fs/smb/client/Makefile
+#lib/modules/KVER-ipfire/build/fs/smb/common
+#lib/modules/KVER-ipfire/build/fs/smb/common/Makefile
+#lib/modules/KVER-ipfire/build/fs/smb/server
+#lib/modules/KVER-ipfire/build/fs/smb/server/Kconfig
+#lib/modules/KVER-ipfire/build/fs/smb/server/Makefile
 #lib/modules/KVER-ipfire/build/fs/squashfs
 #lib/modules/KVER-ipfire/build/fs/squashfs/Kconfig
 #lib/modules/KVER-ipfire/build/fs/squashfs/Makefile
@@ -6419,7 +6422,6 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/asm-generic/bitops/sched.h
 #lib/modules/KVER-ipfire/build/include/asm-generic/bitsperlong.h
 #lib/modules/KVER-ipfire/build/include/asm-generic/bug.h
-#lib/modules/KVER-ipfire/build/include/asm-generic/bugs.h
 #lib/modules/KVER-ipfire/build/include/asm-generic/cache.h
 #lib/modules/KVER-ipfire/build/include/asm-generic/cacheflush.h
 #lib/modules/KVER-ipfire/build/include/asm-generic/checksum.h
@@ -6656,6 +6658,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_ADD_PAGES
 #lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_CACHE_LINE_SIZE
 #lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_COPY_MC
+#lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_CPU_FINALIZE_INIT
 #lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_CPU_RELAX
 #lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_CURRENT_STACK_POINTER
 #lib/modules/KVER-ipfire/build/include/config/ARCH_HAS_DEBUG_VIRTUAL
@@ -6982,6 +6985,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/BTRFS_FS_POSIX_ACL
 #lib/modules/KVER-ipfire/build/include/config/BTT
 #lib/modules/KVER-ipfire/build/include/config/BUG
+#lib/modules/KVER-ipfire/build/include/config/BUG_ON_DATA_CORRUPTION
 #lib/modules/KVER-ipfire/build/include/config/BUILDTIME_MCOUNT_SORT
 #lib/modules/KVER-ipfire/build/include/config/BUILDTIME_TABLE_SORT
 #lib/modules/KVER-ipfire/build/include/config/BUILD_SALT
@@ -7109,6 +7113,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/CPU_IDLE_GOV_TEO
 #lib/modules/KVER-ipfire/build/include/config/CPU_ISOLATION
 #lib/modules/KVER-ipfire/build/include/config/CPU_RMAP
+#lib/modules/KVER-ipfire/build/include/config/CPU_SRSO
 #lib/modules/KVER-ipfire/build/include/config/CPU_SUP_AMD
 #lib/modules/KVER-ipfire/build/include/config/CPU_SUP_CENTAUR
 #lib/modules/KVER-ipfire/build/include/config/CPU_SUP_HYGON
@@ -7325,6 +7330,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/DEBUG_BUGVERBOSE
 #lib/modules/KVER-ipfire/build/include/config/DEBUG_INFO_NONE
 #lib/modules/KVER-ipfire/build/include/config/DEBUG_KERNEL
+#lib/modules/KVER-ipfire/build/include/config/DEBUG_LIST
 #lib/modules/KVER-ipfire/build/include/config/DEBUG_MISC
 #lib/modules/KVER-ipfire/build/include/config/DEBUG_PREEMPT
 #lib/modules/KVER-ipfire/build/include/config/DEBUG_WX
@@ -8671,6 +8677,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/LOCKUP_DETECTOR
 #lib/modules/KVER-ipfire/build/include/config/LOCK_DEBUGGING_SUPPORT
 #lib/modules/KVER-ipfire/build/include/config/LOCK_DOWN_KERNEL_FORCE_NONE
+#lib/modules/KVER-ipfire/build/include/config/LOCK_MM_AND_FIND_VMA
 #lib/modules/KVER-ipfire/build/include/config/LOCK_SPIN_ON_OWNER
 #lib/modules/KVER-ipfire/build/include/config/LOGO
 #lib/modules/KVER-ipfire/build/include/config/LOGO_LINUX_CLUT224
@@ -10406,7 +10413,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/SLS
 #lib/modules/KVER-ipfire/build/include/config/SLUB
 #lib/modules/KVER-ipfire/build/include/config/SLUB_CPU_PARTIAL
-#lib/modules/KVER-ipfire/build/include/config/SMBFS_COMMON
+#lib/modules/KVER-ipfire/build/include/config/SMBFS
 #lib/modules/KVER-ipfire/build/include/config/SMB_SERVER
 #lib/modules/KVER-ipfire/build/include/config/SMB_SERVER_CHECK_CAP_NET_ADMIN
 #lib/modules/KVER-ipfire/build/include/config/SMB_SERVER_KERBEROS5
@@ -11320,6 +11327,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/X86_INTERNODE_CACHE_SHIFT
 #lib/modules/KVER-ipfire/build/include/config/X86_IOPL_IOPERM
 #lib/modules/KVER-ipfire/build/include/config/X86_IO_APIC
+#lib/modules/KVER-ipfire/build/include/config/X86_KERNEL_IBT
 #lib/modules/KVER-ipfire/build/include/config/X86_L1_CACHE_SHIFT
 #lib/modules/KVER-ipfire/build/include/config/X86_LOCAL_APIC
 #lib/modules/KVER-ipfire/build/include/config/X86_MCE
@@ -22267,8 +22275,6 @@ lib/modules/KVER-ipfire/kernel
 #lib/modules/KVER-ipfire/kernel/fs/btrfs/btrfs.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/cachefiles
 #lib/modules/KVER-ipfire/kernel/fs/cachefiles/cachefiles.ko.xz
-#lib/modules/KVER-ipfire/kernel/fs/cifs
-#lib/modules/KVER-ipfire/kernel/fs/cifs/cifs.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/configfs
 #lib/modules/KVER-ipfire/kernel/fs/configfs/configfs.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/dlm
@@ -22286,8 +22292,6 @@ lib/modules/KVER-ipfire/kernel
 #lib/modules/KVER-ipfire/kernel/fs/fuse
 #lib/modules/KVER-ipfire/kernel/fs/fuse/cuse.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/fuse/fuse.ko.xz
-#lib/modules/KVER-ipfire/kernel/fs/ksmbd
-#lib/modules/KVER-ipfire/kernel/fs/ksmbd/ksmbd.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/lockd
 #lib/modules/KVER-ipfire/kernel/fs/lockd/lockd.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/netfs
@@ -22362,9 +22366,14 @@ lib/modules/KVER-ipfire/kernel
 #lib/modules/KVER-ipfire/kernel/fs/ntfs3/ntfs3.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/reiserfs
 #lib/modules/KVER-ipfire/kernel/fs/reiserfs/reiserfs.ko.xz
-#lib/modules/KVER-ipfire/kernel/fs/smbfs_common
-#lib/modules/KVER-ipfire/kernel/fs/smbfs_common/cifs_arc4.ko.xz
-#lib/modules/KVER-ipfire/kernel/fs/smbfs_common/cifs_md4.ko.xz
+#lib/modules/KVER-ipfire/kernel/fs/smb
+#lib/modules/KVER-ipfire/kernel/fs/smb/client
+#lib/modules/KVER-ipfire/kernel/fs/smb/client/cifs.ko.xz
+#lib/modules/KVER-ipfire/kernel/fs/smb/common
+#lib/modules/KVER-ipfire/kernel/fs/smb/common/cifs_arc4.ko.xz
+#lib/modules/KVER-ipfire/kernel/fs/smb/common/cifs_md4.ko.xz
+#lib/modules/KVER-ipfire/kernel/fs/smb/server
+#lib/modules/KVER-ipfire/kernel/fs/smb/server/ksmbd.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/udf
 #lib/modules/KVER-ipfire/kernel/fs/udf/udf.ko.xz
 #lib/modules/KVER-ipfire/kernel/fs/xfs
