@@ -35,10 +35,20 @@ extrahd_mount() {
 	local failed=0
 
 	while IFS=';' read -r device filesystem mountpoint rest; do
-		# Filter by mountpoint if set
-		if [ -n "${_mountpoint}" ] && [ "${mountpoint}" != "${_mountpoint}" ]; then
-			continue
-		fi
+		# Filter by UUID or mountpoint
+		case "${_mountpoint}" in
+			UUID=*)
+				if [ "${device}" != "${_mountpoint}" ]; then
+					continue
+				fi
+				;;
+
+			/*)
+				if [ -n "${_mountpoint}" ] && [ "${mountpoint}" != "${_mountpoint}" ]; then
+					continue
+				fi
+				;;
+		esac
 
 		# Check that the mountpoint starts with a slash
 		if [ "${mountpoint:0:1}" != "/" ]; then
@@ -75,10 +85,20 @@ extrahd_umount() {
 	local failed=0
 
 	while IFS=';' read -r device filesystem mountpoint rest; do
-		# Filter by mountpoint if set
-		if [ -n "${_mountpoint}" ] && [ "${mountpoint}" != "${_mountpoint}" ]; then
-			continue
-		fi
+		# Filter by UUID or mountpoint
+		case "${_mountpoint}" in
+			UUID=*)
+				if [ "${device}" != "${_mountpoint}" ]; then
+					continue
+				fi
+				;;
+
+			/*)
+				if [ -n "${_mountpoint}" ] && [ "${mountpoint}" != "${_mountpoint}" ]; then
+					continue
+				fi
+				;;
+		esac
 
 		# Do not try to umount if nothing is mounted
 		if ! mountpoint "${mountpoint}" &>/dev/null; then
@@ -96,7 +116,21 @@ extrahd_umount() {
 	done < /var/ipfire/extrahd/devices
 }
 
+handle_udev_event() {
+	case "${ACTION}" in
+		add)
+			if [ -n "${ID_FS_UUID}" ]; then
+				extrahd_mount "UUID=${ID_FS_UUID}" || return $?
+			fi
+			;;
+	esac
+
+	return 0
+}
+
 main() {
+	( echo "$@"; set ) > /tmp/extrahd.$$
+
 	local command="${1}"
 	shift
 
@@ -108,6 +142,9 @@ main() {
 			;;
 		umount)
 			extrahd_umount "${@}" || rc="${rc}"
+			;;
+		udev-event)
+			handle_udev_event "${@}" || rc="${rc}"
 			;;
 		scanhd)
 			exec /usr/local/bin/scanhd "${@}"

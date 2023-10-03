@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
@@ -62,13 +62,7 @@ case "${DO}" in
 			/etc/rc.d/init.d/networking/orange start
 
 		# RED
-		if [ "$red" == "1" ]; then
-			if [ "$CONFIG_TYPE" = "1" -o "$CONFIG_TYPE" = "2" -o "$CONFIG_TYPE" = "3" -o "$CONFIG_TYPE" = "4" ]; then
-				# Remove possible leftover files
-				rm -f /var/ipfire/red/{active,device,dial-on-demand,dns1,dns2,local-ipaddress,remote-ipaddress,resolv.conf}
-				[ "$AUTOCONNECT" == "off" ] || /etc/rc.d/init.d/networking/red start
-			fi
-		fi
+		[ "$red" == "1" ] && /etc/rc.d/init.d/networking/red start
 
 		# Create IPsec interfaces
 		/usr/local/bin/ipsec-interfaces

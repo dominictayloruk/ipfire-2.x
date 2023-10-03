@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="179"							# Core Level (Filename)
+CORE="180"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -35,7 +35,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20230620
+TOOLCHAINVER=20230731
 
 # use multicore and max compression
 ZSTD_OPT="-T0 --ultra -22"
@@ -1494,6 +1494,7 @@ buildipfire() {
   lfsmake2 sdl2
   lfsmake2 libusbredir
   lfsmake2 libseccomp
+  lfsmake2 libslirp
   lfsmake2 qemu
   lfsmake2 netsnmpd
   lfsmake2 nagios_nrpe
