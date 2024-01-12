@@ -785,7 +785,6 @@
 < disable
 < Disabled
 < disconnected
-< dl client arch insecure
 < dns check servers
 < dns configuration
 < dns could not add server

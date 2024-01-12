@@ -953,7 +953,6 @@ WARNING: untranslated string: dhcp fixed ip address in dynamic range = Fixed IP 
 WARNING: untranslated string: dhcp make fixed lease = Add to fix leases
 WARNING: untranslated string: disable = Disable
 WARNING: untranslated string: disconnected = Disconnected
-WARNING: untranslated string: dl client arch insecure = Download insecure Client Package (zip)
 WARNING: untranslated string: dns check servers = Check DNS Servers
 WARNING: untranslated string: dns configuration = DNS Configuration
 WARNING: untranslated string: dns enable safe-search = Enable Safe Search

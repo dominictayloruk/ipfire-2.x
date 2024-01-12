@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.27"							# Version number
-CORE="180"							# Core Level (Filename)
+CORE="182"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -1103,24 +1103,19 @@ buildipfire() {
   lfsmake2 backup
   lfsmake2 rust
   lfsmake2 openssl
-  lfsmake2 kmod
-  lfsmake2 udev
   lfsmake2 popt
   lfsmake2 libedit
-  lfsmake2 libusb
+  lfsmake2 pam
+  lfsmake2 libcap
+  lfsmake2 libcap-ng
   lfsmake2 libpcap
   lfsmake2 ppp
   lfsmake2 pptp
   lfsmake2 unzip
   lfsmake2 which
   lfsmake2 bc
-  lfsmake2 u-boot MKIMAGE=1
   lfsmake2 cpio
-  lfsmake2 mdadm
-  lfsmake2 dracut
   lfsmake2 libaio
-  lfsmake2 lvm2
-  lfsmake2 multipath-tools
   lfsmake2 freetype
   lfsmake2 libmnl
   lfsmake2 libnfnetlink
@@ -1144,8 +1139,17 @@ buildipfire() {
   lfsmake2 sqlite
   lfsmake2 python3
   lfsmake2 python3-setuptools
+  lfsmake2 python3-MarkupSafe
+  lfsmake2 python3-Jinja2
   lfsmake2 ninja
   lfsmake2 meson
+  lfsmake2 kmod
+  lfsmake2 udev
+  lfsmake2 libusb
+  lfsmake2 mdadm
+  lfsmake2 dracut
+  lfsmake2 lvm2
+  lfsmake2 multipath-tools
   lfsmake2 glib
   lfsmake2 libgudev
   lfsmake2 libgpg-error
@@ -1165,7 +1169,6 @@ buildipfire() {
   lfsmake2 boost
   lfsmake2 linux-atm
   lfsmake2 libqmi
-  lfsmake2 pam
   lfsmake2 c-ares
   lfsmake2 rust-dissimilar
   lfsmake2 rust-cfg-if
@@ -1291,8 +1294,6 @@ buildipfire() {
   lfsmake2 slang
   lfsmake2 newt
   lfsmake2 libsmooth
-  lfsmake2 libcap
-  lfsmake2 libcap-ng
   lfsmake2 pciutils
   lfsmake2 usbutils
   lfsmake2 libxml2
