@@ -125,7 +125,7 @@ print <<END;
 END
 
 
-print "<link href=\"/themes/ipfire/include/css/style.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
+print "<link href=\"/themes/ipfire/include/css/style.css?v=20240125\" rel=\"stylesheet\" type=\"text/css\" />\n";
 
 
 if ($settings{'SPEED'} ne 'off') {
@@ -140,17 +140,18 @@ print <<END
 	<body>
 		<div id="header" class="fixed">
 			<div id="logo">
-				<a href="https://www.ipfire.org" style="text-decoration: none;">
-					<img src="/themes/ipfire/images/tux2.png" style="float:left; margin-left: -3px; margin-top: -3px;"/>
+				<h1>
+					<a href="https://www.ipfire.org">
+						IPFire_
+					</a>
 END
 ;
 	if ($settings{'WINDOWWITHHOSTNAME'} ne 'off') {
-		print "</a><h1>$settings{'HOSTNAME'}.$settings{'DOMAINNAME'}</h1>";
-	} else {
-		print "<h1>IPFire</h1></a>";
+		print "&dash; $settings{'HOSTNAME'}.$settings{'DOMAINNAME'}";
 	}
 
 print <<END
+				</h1>
 			</div>
 		</div>
 END

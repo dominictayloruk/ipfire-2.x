@@ -22,8 +22,8 @@
 NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
-VERSION="2.27"							# Version number
-CORE="182"							# Core Level (Filename)
+VERSION="2.29"							# Version number
+CORE="184"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -35,7 +35,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20230731
+TOOLCHAINVER=20231206
 
 # use multicore and max compression
 ZSTD_OPT="-T0 --ultra -22"
@@ -1595,6 +1595,14 @@ buildipfire() {
   lfsmake2 python3-terminaltables
   lfsmake2 python3-pkgconfig
   lfsmake2 python3-msgpack
+  lfsmake2 python3-editables
+  lfsmake2 python3-pathspec
+  lfsmake2 python3-pluggy
+  lfsmake2 python3-calver
+  lfsmake2 python3-trove-classifiers
+  lfsmake2 python3-hatchling
+  lfsmake2 python3-hatch-vcs
+  lfsmake2 python3-hatch-fancy-pypi-readme
   lfsmake2 python3-attrs
   lfsmake2 python3-sniffio
   lfsmake2 python3-sortedcontainers
@@ -1648,6 +1656,9 @@ buildipfire() {
   lfsmake2 dnsdist
   lfsmake2 bird
   lfsmake2 libyang
+  lfsmake2 abseil-cpp
+  lfsmake2 protobuf
+  lfsmake2 protobuf-c
   lfsmake2 frr
   lfsmake2 dmidecode
   lfsmake2 mcelog
@@ -1699,15 +1710,12 @@ buildipfire() {
   lfsmake2 perl-MIME-Base32
   lfsmake2 perl-URI-Encode
   lfsmake2 rsnapshot
+  lfsmake2 mympd
 
   # Kernelbuild ... current we have no platform that need
   # multi kernel builds so KCFG is empty
   lfsmake2 linux		KCFG=""
-  lfsmake2 rtl8189es		KCFG=""
-  lfsmake2 rtl8189fs		KCFG=""
   lfsmake2 rtl8812au		KCFG=""
-  lfsmake2 rtl8822bu		KCFG=""
-  lfsmake2 rtl8821cu		KCFG=""
   lfsmake2 linux-initrd		KCFG=""
 }
 

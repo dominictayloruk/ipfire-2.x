@@ -1,7 +1,7 @@
 From 750f19526ae71aac801c77a3f7ef5374890c09b7 Mon Sep 17 00:00:00 2001
 From: Florian Weimer <fweimer@redhat.com>
 Date: Fri, 8 Sep 2023 13:02:06 +0200
-Subject: [PATCH 16/27] elf: Remove unused l_text_end field from struct
+Subject: [PATCH 16/44] elf: Remove unused l_text_end field from struct
  link_map
 
 It is a left-over from commit 52a01100ad011293197637e42b5be1a479a2

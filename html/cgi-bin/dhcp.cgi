@@ -1153,7 +1153,6 @@ print <<END
 	<td class='boldbase'>&nbsp;<b>$Lang::tr{'legend'}:&nbsp;</b></td>
 	<td><img src='/images/on.gif' alt='$Lang::tr{'click to disable'}' /></td>
 	<td class='base'>$Lang::tr{'click to disable'}</td>
-	<td>&nbsp;&nbsp;</td>
 	<td><img src='/images/off.gif' alt='$Lang::tr{'click to enable'}' /></td>
 	<td class='base'>$Lang::tr{'click to enable'}</td>
 	<td>&nbsp;&nbsp;</td>
@@ -1165,10 +1164,10 @@ print <<END
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td>&nbsp;</td>
-	<td class='base orange'>$Lang::tr{'ip address outside subnets'}</td>
-        <td>&nbsp;&nbsp</td>
-        <td class='base red'>$Lang::tr{'dhcp fixed ip address in dynamic range'}</td>
+	<td class='base orange'>&nbsp;</td>
+	<td class='base'>&nbsp;$Lang::tr{'ip address outside subnets'}&emsp;</td>
+       <td class='base red'>&nbsp;</td>
+       <td class='base'>&nbsp;$Lang::tr{'dhcp fixed ip address in dynamic range'}</td>
 	<td>&nbsp;</td>
 	<td>&nbsp;</td>
 	$dup

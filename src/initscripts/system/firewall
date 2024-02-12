@@ -25,6 +25,9 @@
 eval $(/usr/local/bin/readhash /var/ipfire/ppp/settings)
 eval $(/usr/local/bin/readhash /var/ipfire/ethernet/settings)
 eval $(/usr/local/bin/readhash /var/ipfire/optionsfw/settings)
+if [ -r "/var/ipfire/tor/settings"  ]; then
+	eval $(/usr/local/bin/readhash /var/ipfire/tor/settings)
+fi
 IFACE=`/bin/cat /var/ipfire/red/iface 2> /dev/null | /usr/bin/tr -d '\012'`
 if [ -z $IFACE ]; then
 	IFACE="red0"
@@ -176,9 +179,18 @@ iptables_init() {
 	iptables -A FORWARD -j HOSTILE
 	iptables -A OUTPUT -j HOSTILE
 
-	iptables -N HOSTILE_DROP
-	iptables -A HOSTILE_DROP -m limit --limit 10/second -j LOG --log-prefix "DROP_HOSTILE "
-	iptables -A HOSTILE_DROP -j DROP -m comment --comment "DROP_HOSTILE"
+	iptables -N HOSTILE_DROP_IN
+	if [ "$LOGDROPHOSTILEIN" == "on" ]; then
+		iptables -A HOSTILE_DROP_IN -m limit --limit 10/second -j LOG --log-prefix "DROP_HOSTILE "
+	fi
+	iptables -A HOSTILE_DROP_IN -j DROP -m comment --comment "DROP_HOSTILE"
+
+	iptables -N HOSTILE_DROP_OUT
+	if [ "$LOGDROPHOSTILEOUT" == "on" ]; then
+		iptables -A HOSTILE_DROP_OUT -m limit --limit 10/second -j LOG --log-prefix "DROP_HOSTILE "
+	fi
+	iptables -A HOSTILE_DROP_OUT -j DROP -m comment --comment "DROP_HOSTILE"
+
 
 	# IP Address Blocklist chains
 	iptables -N BLOCKLISTIN
@@ -386,6 +398,11 @@ iptables_init() {
 
 	# run captivectrl
 	/usr/local/bin/captivectrl
+
+	# If a Tor relay is enabled apply firewall rules
+	if [ "${TOR_RELAY_ENABLED}" = "on" -a -n "${TOR_RELAY_PORT}" ]; then
+		/usr/local/bin/torctrl restart 1> /dev/null
+	fi
 
 	# POLICY CHAIN
 	iptables -N POLICYIN
