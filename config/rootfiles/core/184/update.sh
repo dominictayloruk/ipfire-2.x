@@ -73,6 +73,10 @@ ldconfig
 # Filesytem cleanup
 /usr/local/bin/filesystem-cleanup
 
+# fix module compression of rtl8812au
+xz -d /lib/modules/6.6.15-ipfire/extra/wlan/8812au.ko.xz
+xz --check=crc32 --lzma2=dict=512KiB /lib/modules/6.6.15-ipfire/extra/wlan/8812au.ko
+
 # Apply local configuration to sshd_config
 /usr/local/bin/sshctrl
 
@@ -81,6 +85,7 @@ telinit u
 /etc/init.d/vnstat start
 /etc/init.d/collectd restart
 /etc/init.d/suricata restart
+/etc/init.d/unbound restart
 if [ -f /var/ipfire/proxy/enable ]; then
 	/etc/init.d/squid start
 fi
