@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2020  IPFire Development Team                                 #
+# Copyright (C) 2005-2024  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -21,6 +21,7 @@
 
 use strict;
 use IO::Socket;
+use Encode;
 
 # enable only the following on debugging purpose
 #use warnings;
@@ -142,7 +143,17 @@ if (($cgiparams{'SERVERS'} eq $Lang::tr{'save'}) || ($cgiparams{'SERVERS'} eq $L
 	# Go further if there was no error.
 	if ( ! $errormessage) {
 		# Check if a remark has been entered.
+
+		# decode the UTF-8 text so that characters with diacritical marks such as
+		# umlauts are treated correctly by the following cleanhtml command
+		$cgiparams{'REMARK'} = decode("UTF-8", $cgiparams{'REMARK'});
+
+		# run the REMARK text through cleanhtml to ensure all unsafe html characters
+		# are correctly encoded to their html entities
 		$cgiparams{'REMARK'} = &Header::cleanhtml($cgiparams{'REMARK'});
+
+		# encode the text back to UTF-8 after running the cleanhtml command
+		$cgiparams{'REMARK'} = encode("UTF-8", $cgiparams{'REMARK'});
 
 		my %dns_servers = ();
 		my $id;

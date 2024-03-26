@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.29"							# Version number
-CORE="184"							# Core Level (Filename)
+CORE="185"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -35,7 +35,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20231206
+TOOLCHAINVER=20240210
 
 # use multicore and max compression
 ZSTD_OPT="-T0 --ultra -22"
@@ -182,9 +182,9 @@ configure_build() {
 	TOOLS_DIR="/tools_${BUILD_ARCH}"
 
 	# Enables hardening
-	HARDENING_CFLAGS="-Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-protector-strong -fstack-clash-protection"
+	HARDENING_CFLAGS="-Wp,-U_FORTIFY_SOURCE -Wp,-D_FORTIFY_SOURCE=3 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-protector-strong -fstack-clash-protection"
 
-	CFLAGS="-O2 -pipe -Wall -fexceptions -fPIC ${CFLAGS_ARCH}"
+	CFLAGS="-O2 -g0 -pipe -Wall -fexceptions -fPIC ${CFLAGS_ARCH}"
 	CXXFLAGS="${CFLAGS}"
 
 	RUSTFLAGS="-Copt-level=3 -Clink-arg=-Wl,-z,relro,-z,now -Ccodegen-units=1 --cap-lints=warn ${RUSTFLAGS_ARCH}"
@@ -1711,6 +1711,7 @@ buildipfire() {
   lfsmake2 perl-URI-Encode
   lfsmake2 rsnapshot
   lfsmake2 mympd
+  lfsmake2 wsdd
 
   # Kernelbuild ... current we have no platform that need
   # multi kernel builds so KCFG is empty

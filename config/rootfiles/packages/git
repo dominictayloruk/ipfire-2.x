@@ -133,6 +133,7 @@ usr/libexec/git-core/git-remote-http
 usr/libexec/git-core/git-remote-https
 usr/libexec/git-core/git-repack
 usr/libexec/git-core/git-replace
+usr/libexec/git-core/git-replay
 usr/libexec/git-core/git-request-pull
 usr/libexec/git-core/git-rerere
 usr/libexec/git-core/git-reset
