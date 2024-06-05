@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.29"							# Version number
-CORE="185"							# Core Level (Filename)
+CORE="186"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -1377,6 +1377,10 @@ buildipfire() {
   lfsmake2 perl-Crypt-PasswdMD5
   lfsmake2 perl-Net-Telnet
   lfsmake2 perl-JSON
+  lfsmake2 perl-Capture-Tiny
+  lfsmake2 perl-Config-AutoConf
+  lfsmake2 perl-Object-Tiny
+  lfsmake2 perl-Archive-Peek-Libarchive
   lfsmake2 python3-inotify
   lfsmake2 python3-docutils
   lfsmake2 python3-daemon
@@ -1500,7 +1504,6 @@ buildipfire() {
   lfsmake2 netsnmpd
   lfsmake2 nagios_nrpe
   lfsmake2 nagios-plugins
-  lfsmake2 icinga
   lfsmake2 observium-agent
   lfsmake2 ebtables
   lfsmake2 faad2
@@ -1538,7 +1541,6 @@ buildipfire() {
   lfsmake2 lynis
   lfsmake2 sshfs
   lfsmake2 taglib
-  lfsmake2 sslh
   lfsmake2 perl-gettext
   lfsmake2 perl-Sort-Naturally
   lfsmake2 vdradmin
@@ -1712,6 +1714,9 @@ buildipfire() {
   lfsmake2 rsnapshot
   lfsmake2 mympd
   lfsmake2 wsdd
+  lfsmake2 btrfs-progs
+  lfsmake2 inotify-tools
+  lfsmake2 grub-btrfs
 
   # Kernelbuild ... current we have no platform that need
   # multi kernel builds so KCFG is empty

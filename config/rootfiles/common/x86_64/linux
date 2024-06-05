@@ -1,6 +1,7 @@
 boot/System.map-KVER-ipfire
 boot/config-KVER-ipfire
 boot/vmlinuz-KVER-ipfire
+#etc/cpufreq-bench.conf
 etc/modprobe.d/framebuffer.conf
 etc/modprobe.d/ipv6.conf
 #lib/modules
@@ -6925,6 +6926,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/AQUANTIA_PHY
 #lib/modules/KVER-ipfire/build/include/config/AR5523
 #lib/modules/KVER-ipfire/build/include/config/ARCH_CLOCKSOURCE_INIT
+#lib/modules/KVER-ipfire/build/include/config/ARCH_CONFIGURES_CPU_MITIGATIONS
 #lib/modules/KVER-ipfire/build/include/config/ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
 #lib/modules/KVER-ipfire/build/include/config/ARCH_CPUIDLE_HALTPOLL
 #lib/modules/KVER-ipfire/build/include/config/ARCH_DMA_ADDR_T_64BIT
@@ -7231,7 +7233,10 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/BOOT_VESA_SUPPORT
 #lib/modules/KVER-ipfire/build/include/config/BPF
 #lib/modules/KVER-ipfire/build/include/config/BPF_JIT
+#lib/modules/KVER-ipfire/build/include/config/BPF_JIT_ALWAYS_ON
 #lib/modules/KVER-ipfire/build/include/config/BPF_JIT_DEFAULT_ON
+#lib/modules/KVER-ipfire/build/include/config/BPF_SYSCALL
+#lib/modules/KVER-ipfire/build/include/config/BPF_UNPRIV_DEFAULT_OFF
 #lib/modules/KVER-ipfire/build/include/config/BQL
 #lib/modules/KVER-ipfire/build/include/config/BRANCH_PROFILE_NONE
 #lib/modules/KVER-ipfire/build/include/config/BRCMFMAC
@@ -7411,6 +7416,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/CPU_IDLE_GOV_MENU
 #lib/modules/KVER-ipfire/build/include/config/CPU_IDLE_GOV_TEO
 #lib/modules/KVER-ipfire/build/include/config/CPU_ISOLATION
+#lib/modules/KVER-ipfire/build/include/config/CPU_MITIGATIONS
 #lib/modules/KVER-ipfire/build/include/config/CPU_RMAP
 #lib/modules/KVER-ipfire/build/include/config/CPU_SRSO
 #lib/modules/KVER-ipfire/build/include/config/CPU_SUP_AMD
@@ -8190,7 +8196,8 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/FW_LOADER_USER_HELPER
 #lib/modules/KVER-ipfire/build/include/config/GACT_PROB
 #lib/modules/KVER-ipfire/build/include/config/GARP
-#lib/modules/KVER-ipfire/build/include/config/GCC11_NO_ARRAY_BOUNDS
+#lib/modules/KVER-ipfire/build/include/config/GCC10_NO_ARRAY_BOUNDS
+#lib/modules/KVER-ipfire/build/include/config/GCC_ASM_GOTO_OUTPUT_WORKAROUND
 #lib/modules/KVER-ipfire/build/include/config/GCC_PLUGINS
 #lib/modules/KVER-ipfire/build/include/config/GCC_VERSION
 #lib/modules/KVER-ipfire/build/include/config/GENERIC_ALLOCATOR
@@ -9202,6 +9209,8 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/MISC_RTSX
 #lib/modules/KVER-ipfire/build/include/config/MISC_RTSX_PCI
 #lib/modules/KVER-ipfire/build/include/config/MISC_RTSX_USB
+#lib/modules/KVER-ipfire/build/include/config/MITIGATION_RFDS
+#lib/modules/KVER-ipfire/build/include/config/MITIGATION_SPECTRE_BHI
 #lib/modules/KVER-ipfire/build/include/config/MLX4_CORE
 #lib/modules/KVER-ipfire/build/include/config/MLX4_CORE_GEN2
 #lib/modules/KVER-ipfire/build/include/config/MLX4_EN
@@ -9367,6 +9376,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/NETDEVICES
 #lib/modules/KVER-ipfire/build/include/config/NETFILTER
 #lib/modules/KVER-ipfire/build/include/config/NETFILTER_ADVANCED
+#lib/modules/KVER-ipfire/build/include/config/NETFILTER_BPF_LINK
 #lib/modules/KVER-ipfire/build/include/config/NETFILTER_CONNCOUNT
 #lib/modules/KVER-ipfire/build/include/config/NETFILTER_EGRESS
 #lib/modules/KVER-ipfire/build/include/config/NETFILTER_FAMILY_ARP
@@ -9888,7 +9898,6 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/NXP_C45_TJA11XX_PHY
 #lib/modules/KVER-ipfire/build/include/config/NXP_CBTX_PHY
 #lib/modules/KVER-ipfire/build/include/config/NXP_TJA11XX_PHY
-#lib/modules/KVER-ipfire/build/include/config/N_GSM
 #lib/modules/KVER-ipfire/build/include/config/N_HDLC
 #lib/modules/KVER-ipfire/build/include/config/OBJAGG
 #lib/modules/KVER-ipfire/build/include/config/OBJTOOL
@@ -10992,7 +11001,6 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/SPARSEMEM_VMEMMAP
 #lib/modules/KVER-ipfire/build/include/config/SPARSEMEM_VMEMMAP_ENABLE
 #lib/modules/KVER-ipfire/build/include/config/SPARSE_IRQ
-#lib/modules/KVER-ipfire/build/include/config/SPECULATION_MITIGATIONS
 #lib/modules/KVER-ipfire/build/include/config/SPLIT_PTLOCK_CPUS
 #lib/modules/KVER-ipfire/build/include/config/SPMI
 #lib/modules/KVER-ipfire/build/include/config/SSB
@@ -11062,6 +11070,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/TASKS_RCU
 #lib/modules/KVER-ipfire/build/include/config/TASKS_RCU_GENERIC
 #lib/modules/KVER-ipfire/build/include/config/TASKS_RUDE_RCU
+#lib/modules/KVER-ipfire/build/include/config/TASKS_TRACE_RCU
 #lib/modules/KVER-ipfire/build/include/config/TASK_DELAY_ACCT
 #lib/modules/KVER-ipfire/build/include/config/TASK_IO_ACCOUNTING
 #lib/modules/KVER-ipfire/build/include/config/TASK_XACCT
@@ -11743,6 +11752,8 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/config/X86_VSYSCALL_EMULATION
 #lib/modules/KVER-ipfire/build/include/config/X86_X2APIC
 #lib/modules/KVER-ipfire/build/include/config/XARRAY_MULTI
+#lib/modules/KVER-ipfire/build/include/config/XDP_SOCKETS
+#lib/modules/KVER-ipfire/build/include/config/XDP_SOCKETS_DIAG
 #lib/modules/KVER-ipfire/build/include/config/XEN
 #lib/modules/KVER-ipfire/build/include/config/XENFS
 #lib/modules/KVER-ipfire/build/include/config/XEN_512GB
@@ -12482,6 +12493,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/include/dt-bindings/dma/at91.h
 #lib/modules/KVER-ipfire/build/include/dt-bindings/dma/axi-dmac.h
 #lib/modules/KVER-ipfire/build/include/dt-bindings/dma/dw-dmac.h
+#lib/modules/KVER-ipfire/build/include/dt-bindings/dma/fsl-edma.h
 #lib/modules/KVER-ipfire/build/include/dt-bindings/dma/jz4775-dma.h
 #lib/modules/KVER-ipfire/build/include/dt-bindings/dma/jz4780-dma.h
 #lib/modules/KVER-ipfire/build/include/dt-bindings/dma/nbpfaxi.h
@@ -18934,6 +18946,7 @@ etc/modprobe.d/ipv6.conf
 #lib/modules/KVER-ipfire/build/scripts/mod/modpost.c
 #lib/modules/KVER-ipfire/build/scripts/mod/modpost.h
 #lib/modules/KVER-ipfire/build/scripts/mod/sumversion.c
+#lib/modules/KVER-ipfire/build/scripts/mod/symsearch.c
 #lib/modules/KVER-ipfire/build/scripts/module.lds
 #lib/modules/KVER-ipfire/build/scripts/module.lds.S
 #lib/modules/KVER-ipfire/build/scripts/modules-check.sh
@@ -22614,7 +22627,6 @@ lib/modules/KVER-ipfire/kernel
 #lib/modules/KVER-ipfire/kernel/drivers/thermal/intel/intel_tcc_cooling.ko.xz
 #lib/modules/KVER-ipfire/kernel/drivers/thermal/intel/x86_pkg_temp_thermal.ko.xz
 #lib/modules/KVER-ipfire/kernel/drivers/tty
-#lib/modules/KVER-ipfire/kernel/drivers/tty/n_gsm.ko.xz
 #lib/modules/KVER-ipfire/kernel/drivers/tty/n_hdlc.ko.xz
 #lib/modules/KVER-ipfire/kernel/drivers/tty/nozomi.ko.xz
 #lib/modules/KVER-ipfire/kernel/drivers/tty/serial
@@ -23486,6 +23498,8 @@ lib/modules/KVER-ipfire/kernel
 #lib/modules/KVER-ipfire/kernel/net/wireless/lib80211_crypt_ccmp.ko.xz
 #lib/modules/KVER-ipfire/kernel/net/wireless/lib80211_crypt_tkip.ko.xz
 #lib/modules/KVER-ipfire/kernel/net/wireless/lib80211_crypt_wep.ko.xz
+#lib/modules/KVER-ipfire/kernel/net/xdp
+#lib/modules/KVER-ipfire/kernel/net/xdp/xsk_diag.ko.xz
 #lib/modules/KVER-ipfire/kernel/net/xfrm
 #lib/modules/KVER-ipfire/kernel/net/xfrm/xfrm_ipcomp.ko.xz
 #lib/modules/KVER-ipfire/kernel/sound
@@ -23699,3 +23713,32 @@ lib/modules/KVER-ipfire/modules.symbols
 lib/modules/KVER-ipfire/modules.symbols.bin
 #lib/modules/KVER-ipfire/source
 sbin/gen_init_cpio
+#usr/bin/cpufreq-bench_plot.sh
+usr/bin/cpupower
+#usr/include/cpufreq.h
+#usr/include/cpuidle.h
+#usr/include/powercap.h
+#usr/lib/libcpupower.so
+usr/lib/libcpupower.so.0.0.1
+usr/lib/libcpupower.so.1
+#usr/man/man1/cpupower-frequency-info.1
+#usr/man/man1/cpupower-frequency-set.1
+#usr/man/man1/cpupower-idle-info.1
+#usr/man/man1/cpupower-idle-set.1
+#usr/man/man1/cpupower-info.1
+#usr/man/man1/cpupower-monitor.1
+#usr/man/man1/cpupower-powercap-info.1
+#usr/man/man1/cpupower-set.1
+#usr/man/man1/cpupower.1
+#usr/sbin/cpufreq-bench
+#usr/share/bash-completion/completions/cpupower
+#usr/share/doc/packages
+#usr/share/doc/packages/cpupower
+#usr/share/doc/packages/cpupower/README-BENCH
+#usr/share/doc/packages/cpupower/cpufreq-bench_script.sh
+#usr/share/locale/cs/LC_MESSAGES/cpupower.mo
+#usr/share/locale/de/LC_MESSAGES/cpupower.mo
+#usr/share/locale/fr/LC_MESSAGES/cpupower.mo
+#usr/share/locale/it/LC_MESSAGES/cpupower.mo
+#usr/share/locale/ka/LC_MESSAGES/cpupower.mo
+#usr/share/locale/pt/LC_MESSAGES/cpupower.mo
