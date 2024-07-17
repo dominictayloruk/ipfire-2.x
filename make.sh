@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2023  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2024  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.29"							# Version number
-CORE="186"							# Core Level (Filename)
+CORE="187"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 MAX_RETRIES=1							# prefetch/check loop
@@ -35,7 +35,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20240210
+TOOLCHAINVER=20240521
 
 # use multicore and max compression
 ZSTD_OPT="-T0 --ultra -22"
@@ -1402,7 +1402,7 @@ buildipfire() {
   lfsmake2 libhtp
   lfsmake2 colm
   lfsmake2 ragel
-  lfsmake2 hyperscan
+  lfsmake2 vectorscan
   lfsmake2 suricata
   lfsmake2 ids-ruleset-sources
   lfsmake2 ipblocklist-sources
@@ -1540,6 +1540,7 @@ buildipfire() {
   lfsmake2 7zip
   lfsmake2 lynis
   lfsmake2 sshfs
+  lfsmake2 utfcpp
   lfsmake2 taglib
   lfsmake2 perl-gettext
   lfsmake2 perl-Sort-Naturally
@@ -1688,6 +1689,9 @@ buildipfire() {
   lfsmake2 zabbix_agentd
   lfsmake2 flashrom
   lfsmake2 firmware-update
+  lfsmake2 ruby
+  lfsmake2 asciidoctor
+  lfsmake2 speexdsp
   lfsmake2 tshark
   lfsmake2 speedtest-cli
   lfsmake2 amazon-ssm-agent
