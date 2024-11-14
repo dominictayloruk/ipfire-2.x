@@ -324,6 +324,11 @@ rm -vrf \
 	/lib/firmware/qcom/vpu-1.0/venus.mdt \
 	/lib/firmware/RTL8192E
 
+# Remove the metadata for ncat (if installed) as this is now part of the core system
+rm -f "/opt/pakfire/db/installed/meta-ncat"
+rm -f "/opt/pakfire/db/meta/meta-ncat"
+rm -f "/opt/pakfire/db/rootfiles/ncat"
+
 # Stop services
 /usr/local/bin/openvpnctrl -k
 /usr/local/bin/openvpnctrl -kn2n
@@ -349,6 +354,7 @@ ldconfig
 telinit u
 
 # Start services
+/etc/init.d/unbound restart
 /etc/init.d/collectd restart
 /usr/local/bin/openvpnctrl -s
 /usr/local/bin/openvpnctrl -sn2n

@@ -22,8 +22,8 @@
 use strict;
 
 # enable only the following on debugging purpose
-use warnings;
-use CGI::Carp 'fatalsToBrowser';
+#use warnings;
+#use CGI::Carp 'fatalsToBrowser';
 
 require '/var/ipfire/general-functions.pl';
 require '/var/ipfire/lang.pl';
@@ -34,6 +34,9 @@ my %selected=();
 my %checked=();
 my %wlanapsettings=();
 
+# Read the configuration file
+&General::readhash("/var/ipfire/wlanap/settings", \%wlanapsettings);
+
 # Set defaults
 &General::set_defaults(\%wlanapsettings, {
 	"APMODE" => "on",
@@ -41,22 +44,24 @@ my %wlanapsettings=();
 	"HIDESSID" => "off",
 	"ENC" => "wpa2",
 	"TXPOWER" => "auto",
-	"CHANNEL" => "6",
+	"CHANNEL" => "0",
 	"COUNTRY" => "00",
 	"HW_MODE" => "g",
 	"PWD" => "",
 	"HTCAPS" => "",
 	"VHTCAPS" => "",
-	"NOSCAN" => "off",
+	"NOSCAN" => "on",
 	"CLIENTISOLATION" => "off",
 	"IEEE80211W" => "off",
 });
 
-&General::readhash("/var/ipfire/wlanap/settings", \%wlanapsettings);
-&Header::getcgihash(\%wlanapsettings);
+my %cgiparams = ();
+
+# Fetch arguments from browser
+&Header::getcgihash(\%cgiparams);
 
 # Find the selected interface
-my $INTF = &Network::get_intf_by_address($wlanapsettings{'INTERFACE'});
+my $INTF = &Network::get_intf_by_address($cgiparams{'INTERFACE'});
 
 delete $wlanapsettings{'__CGI__'};
 delete $wlanapsettings{'x'};
@@ -64,19 +69,35 @@ delete $wlanapsettings{'y'};
 
 &Header::showhttpheaders();
 
-if ($wlanapsettings{'ACTION'} eq "$Lang::tr{'save'}") {
+if ($cgiparams{'ACTION'} eq "$Lang::tr{'save'}") {
 	# verify WPA Passphrase - only with enabled enc
-	if ($wlanapsettings{'ENC'} ne "none") {
+	if ($cgiparams{'ENC'} ne "none") {
 		# must be 8 .. 63 characters
-		if ((length($wlanapsettings{'PWD'}) < 8) || (length($wlanapsettings{'PWD'}) > 63)) {
+		if ((length($cgiparams{'PWD'}) < 8) || (length($cgiparams{'PWD'}) > 63)) {
 			$errormessage .= "$Lang::tr{'wlanap invalid wpa'}<br />";
 		}
 
 		# only ASCII alowed
-		if (!($wlanapsettings{'PWD'} !~ /[^\x00-\x7f]/)) {
+		if (!($cgiparams{'PWD'} !~ /[^\x00-\x7f]/)) {
 			$errormessage .= "$Lang::tr{'wlanap invalid wpa'}<br />";
 		}
 	}
+
+	# XXX This needs validation
+	$wlanapsettings{'INTERFACE'} = $cgiparams{'INTERFACE'};
+	$wlanapsettings{'SSID'} = $cgiparams{'SSID'};
+	$wlanapsettings{'HIDESSID'} = ($cgiparams{'HIDESSID'} eq 'on') ? 'on' : 'off';
+	$wlanapsettings{'CLIENTISOLATION'} = ($cgiparams{'CLIENTISOLATION'} eq 'on') ? 'on' : 'off';
+	$wlanapsettings{'COUNTRY'} = $cgiparams{'COUNTRY'};
+	$wlanapsettings{'HW_MODE'} = $cgiparams{'HW_MODE'};
+	$wlanapsettings{'CHANNEL'} = $cgiparams{'CHANNEL'};
+	$wlanapsettings{'NOSCAN'} = ($cgiparams{'NOSCAN'} eq 'on') ? 'on' : 'off';
+	$wlanapsettings{'ENC'} = $cgiparams{'ENC'};
+	$wlanapsettings{'PWD'} = $cgiparams{'PWD'};
+	$wlanapsettings{'IEEE80211W'} = ($cgiparams{'IEEE80211W'} eq 'on') ? 'on' : 'off';
+	$wlanapsettings{'HTCAPS'} = $cgiparams{'HTCAPS'};
+	$wlanapsettings{'VHTCAPS'} = $cgiparams{'VHTCAPS'};
+	$wlanapsettings{'TX_POWER'} = $cgiparams{'TX_POWER'};
 
 	if ($errormessage eq '') {
 		&General::writehash("/var/ipfire/wlanap/settings", \%wlanapsettings);
@@ -211,7 +232,7 @@ print <<END;
 			</tr>
 
 			<tr>
-				<td>$Lang::tr{'wlanap broadcast ssid'}</td>
+				<td>$Lang::tr{'wlanap hide ssid'}</td>
 				<td>
 					<input type='checkbox' name='HIDESSID' $checked{'HIDESSID'}{'on'}>
 				</td>
@@ -354,29 +375,33 @@ END
 
 &Header::closebox();
 
-&Header::opensection();
+if ($INTF) {
 
-my @status = `iw dev $INTF info`;
+	&Header::opensection();
 
-if (@status) {
-	print <<END;
-		<h6>$Lang::tr{'wlanap wlan status'}</h6>
+	my @status = `iw dev $INTF info`;
 
-		<pre>@status</pre>
+	if (@status) {
+		print <<END;
+			<h6>$Lang::tr{'wlanap wlan status'}</h6>
+
+			<pre>@status</pre>
 END
+	}
+
+	@status = `iw dev $INTF station dump`;
+
+	if (@status) {
+		print <<END;
+			<h6>$Lang::tr{'wlanap clients'}</h6>
+
+			<pre>@status</pre>
+END
+	}
+
+	&Header::closesection();
 }
 
-my @status = `iw dev $INTF station dump`;
-
-if (@status) {
-	print <<END;
-		<h6>$Lang::tr{'wlanap clients'}</h6>
-
-		<pre>@status</pre>
-END
-}
-
-&Header::closesection();
 &Header::closebigbox();
 &Header::closepage();
 

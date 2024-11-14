@@ -569,7 +569,7 @@ sub getccdadresses
 	for (my $i=1;$i<=$count;$i++) {
 		my $tmpip=$iprange[$i-1];
 		my $stepper=$i*4;
-		$iprange[$i]= &General::getnextip($tmpip,4);
+		$iprange[$i]= &Network::bin2ip(&Network::ip2bin($tmpip) + 4);
 	}
 	my $r=0;
 	foreach my $key (keys %ccdhash) {
@@ -4402,7 +4402,7 @@ if ($cgiparams{'TYPE'} eq 'net') {
 				print CCDRWCONF "#This client uses the dynamic pool\n";
 			}else{
 				print CCDRWCONF "#Ip address client and server\n";
-				print CCDRWCONF "ifconfig-push $ccdip ".&General::getlastip($ccdip,1)."\n";
+				print CCDRWCONF "ifconfig-push $ccdip ". &Network::bin2ip(&Network::ip2bin($ccdip) - 1) ."\n";
 			}
 			if ($confighash{$key}[34] eq 'on'){
 				print CCDRWCONF "\n#Redirect Gateway: \n#All IP traffic is redirected through the vpn \n";
