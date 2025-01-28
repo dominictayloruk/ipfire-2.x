@@ -61,7 +61,7 @@ my %cgiparams = ();
 &Header::getcgihash(\%cgiparams);
 
 # Find the selected interface
-my $INTF = &Network::get_intf_by_address($cgiparams{'INTERFACE'});
+my $INTF = &Network::get_intf_by_address($wlanapsettings{'INTERFACE'});
 
 delete $wlanapsettings{'__CGI__'};
 delete $wlanapsettings{'x'};
@@ -107,11 +107,11 @@ if ($cgiparams{'ACTION'} eq "$Lang::tr{'save'}") {
 	}
 
 # Start
-} elsif ($wlanapsettings{'ACTION'} eq "$Lang::tr{'start'}") {
+} elsif ($cgiparams{'ACTION'} eq "$Lang::tr{'start'}") {
 	&General::system("/usr/local/bin/wlanapctrl", "start");
 
 # Stop
-} elsif ($wlanapsettings{'ACTION'} eq "$Lang::tr{'stop'}") {
+} elsif ($cgiparams{'ACTION'} eq "$Lang::tr{'stop'}") {
 	&General::system("/usr/local/bin/wlanapctrl", "stop");
 }
 
@@ -281,7 +281,7 @@ print <<END;
 END
 
 foreach my $channel (@channellist){
-	print "<option $selected{'CHANNEL'}{$channel}>";
+	print "<option value='$channel' $selected{'CHANNEL'}{$channel}>";
 	if ($channel eq 0) {
 		print "- $Lang::tr{'wlanap auto'} -";
 	} else {
@@ -376,7 +376,6 @@ END
 &Header::closebox();
 
 if ($INTF) {
-
 	&Header::opensection();
 
 	my @status = `iw dev $INTF info`;

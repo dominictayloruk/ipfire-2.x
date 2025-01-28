@@ -1,0 +1,162 @@
+diff -Naur pppd.orig/auth.c pppd/auth.c
+--- pppd.orig/auth.c	2024-09-18 06:30:31.000000000 +0200
++++ pppd/auth.c	2024-10-07 16:12:09.202924555 +0200
+@@ -529,7 +529,7 @@
+         free(fname);
+ 	return 0;
+     }
+-    ufile = fopen(fname, "r");
++    ufile = fopen(fname, "re");
+     if (seteuid(euid) == -1)
+ 	fatal("unable to regain privileges: %m");
+     if (ufile == NULL) {
+@@ -1552,7 +1552,7 @@
+     filename = path_upapfile;
+     addrs = opts = NULL;
+     ret = UPAP_AUTHNAK;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL) {
+ 	error("Can't open PAP password file %s: %m", filename);
+ 
+@@ -1652,7 +1652,7 @@
+     if (ret <= 0) {
+ 	filename = path_upapfile;
+ 	addrs = NULL;
+-	f = fopen(filename, "r");
++	f = fopen(filename, "re");
+ 	if (f == NULL)
+ 	    return 0;
+ 	check_access(f, filename);
+@@ -1698,7 +1698,7 @@
+     }
+ 
+     filename = path_upapfile;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL)
+ 	return 0;
+     check_access(f, filename);
+@@ -1735,7 +1735,7 @@
+     }
+ 
+     filename = path_upapfile;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL)
+ 	return 0;
+ 
+@@ -1777,7 +1777,7 @@
+     }
+ 
+     filename = path_chapfile;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL)
+ 	return 0;
+ 
+@@ -1815,7 +1815,7 @@
+     struct wordlist *addrs;
+ 
+     filename = PPP_PATH_SRPFILE;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL)
+ 	return 0;
+ 
+@@ -1866,7 +1866,7 @@
+ 	addrs = NULL;
+ 	secbuf[0] = 0;
+ 
+-	f = fopen(filename, "r");
++	f = fopen(filename, "re");
+ 	if (f == NULL) {
+ 	    error("Can't open chap secret file %s: %m", filename);
+ 	    return 0;
+@@ -1919,7 +1919,7 @@
+ 	filename = PPP_PATH_SRPFILE;
+ 	addrs = NULL;
+ 
+-	fp = fopen(filename, "r");
++	fp = fopen(filename, "re");
+ 	if (fp == NULL) {
+ 	    error("Can't open srp secret file %s: %m", filename);
+ 	    return 0;
+@@ -2309,7 +2309,7 @@
+ 	     */
+ 	    if (word[0] == '@' && word[1] == '/') {
+ 		strlcpy(atfile, word+1, sizeof(atfile));
+-		if ((sf = fopen(atfile, "r")) == NULL) {
++		if ((sf = fopen(atfile, "re")) == NULL) {
+ 		    warn("can't open indirect secret file %s", atfile);
+ 		    continue;
+ 		}
+@@ -2479,7 +2479,7 @@
+     char pkfile[MAXWORDLEN];
+ 
+     filename = PPP_PATH_EAPTLSSERVFILE;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL)
+ 		return 0;
+ 
+@@ -2536,7 +2536,7 @@
+ 		return 1;
+ 
+     filename = PPP_PATH_EAPTLSCLIFILE;
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     if (f == NULL)
+ 		return 0;
+ 
+@@ -2756,7 +2756,7 @@
+ 		filename = (am_server ? PPP_PATH_EAPTLSSERVFILE : PPP_PATH_EAPTLSCLIFILE);
+ 		addrs = NULL;
+ 
+-		fp = fopen(filename, "r");
++		fp = fopen(filename, "re");
+ 		if (fp == NULL)
+ 		{
+ 			error("Can't open eap-tls secret file %s: %m", filename);
+diff -Naur pppd.orig/options.c pppd/options.c
+--- pppd.orig/options.c	2024-09-18 06:30:31.000000000 +0200
++++ pppd/options.c	2024-10-07 16:12:40.217129032 +0200
+@@ -572,7 +572,7 @@
+ 	ppp_option_error("unable to drop privileges to open %s: %m", filename);
+ 	return 0;
+     }
+-    f = fopen(filename, "r");
++    f = fopen(filename, "re");
+     err = errno;
+     if (check_prot && seteuid(euid) == -1)
+ 	fatal("unable to regain privileges");
+diff -Naur pppd.orig/sys-linux.c pppd/sys-linux.c
+--- pppd.orig/sys-linux.c	2024-09-18 06:30:31.000000000 +0200
++++ pppd/sys-linux.c	2024-10-07 16:13:35.002001250 +0200
+@@ -1970,7 +1970,7 @@
+ 	/* Default the mount location of /proc */
+ 	strlcpy (proc_path, "/proc", sizeof(proc_path));
+ 	proc_path_len = 5;
+-	fp = fopen(MOUNTED, "r");
++	fp = fopen(MOUNTED, "re");
+ 	if (fp != NULL) {
+ 	    while ((mntent = getmntent(fp)) != NULL) {
+ 		if (strcmp(mntent->mnt_type, MNTTYPE_IGNORE) == 0)
+@@ -2030,7 +2030,7 @@
+     close_route_table();
+ 
+     path = path_to_procfs("/net/route");
+-    route_fd = fopen (path, "r");
++    route_fd = fopen (path, "re");
+     if (route_fd == NULL) {
+ 	error("can't open routing table %s: %m", path);
+ 	return 0;
+@@ -2330,7 +2330,7 @@
+     close_route_table();
+ 
+     path = path_to_procfs("/net/ipv6_route");
+-    route_fd = fopen (path, "r");
++    route_fd = fopen (path, "re");
+     if (route_fd == NULL) {
+ 	error("can't open routing table %s: %m", path);
+ 	return 0;

@@ -216,6 +216,11 @@ class UnboundDHCPLeasesBridge(object):
 			# Find the old lease
 			old_lease = self._find_lease(address)
 
+			# Don't update fixed leases as they might clear the hostname
+			if old_lease and old_lease.fixed:
+				log.debug("Won't update fixed lease %s" % old_lease)
+				return
+
 			# Create a new lease
 			lease = Lease(address, {
 				"client-hostname" : name,
@@ -276,12 +281,12 @@ class UnboundDHCPLeasesBridge(object):
 				if lease.has_expired():
 					log.debug("    Expired")
 
-		self.unbound.update_dhcp_leases(self.leases)
+		self.unbound.update_dhcp_leases([l for l in self.leases if not l.has_expired()])
 
 	def _add_lease(self, lease):
-		# Skip leases without an FQDN
+		# Skip leases without a FQDN
 		if not lease.fqdn:
-			log.debug("Skipping lease without an FQDN: %s" % lease)
+			log.debug("Skipping lease without a FQDN: %s" % lease)
 			return
 
 		# Skip any leases that also are a static host
@@ -581,19 +586,20 @@ class FixLeases(object):
 					"client-hostname" : hostname,
 					"starts"          : now.strftime("%w %Y/%m/%d %H:%M:%S"),
 					"ends"            : "never",
-				})
+				}, fixed=True)
 				leases.append(l)
 
 		return leases
 
 
 class Lease(object):
-	def __init__(self, ipaddr, properties):
+	def __init__(self, ipaddr, properties, fixed=False):
 		if not isinstance(ipaddr, ipaddress.IPv4Address):
 			ipaddr = ipaddress.IPv4Address(ipaddr)
 
 		self.ipaddr = ipaddr
 		self._properties = properties
+		self.fixed = fixed
 
 	def __repr__(self):
 		return "<%s for %s (%s)>" % (self.__class__.__name__, self.ipaddr, self.hostname)
@@ -711,7 +717,7 @@ class Lease(object):
 		if not self.time_ends:
 			return self.time_starts > datetime.datetime.utcnow()
 
-		return self.time_starts > datetime.datetime.utcnow() > self.time_ends
+		return not self.time_starts < datetime.datetime.utcnow() < self.time_ends
 
 	@property
 	def rrset(self):

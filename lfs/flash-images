@@ -1,7 +1,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2022  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2024  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -78,9 +78,9 @@ else
 endif
 
 # /boot:  512 MB - OFFSET
-# /    : 2048 MB
+# /    : 2176 MB * 2048 = 4456448
 S_BOOT := $(shell echo $$(( 1048576 - $(S_OFFSET) )))
-S_ROOT := 4194304
+S_ROOT := 4456448
 
 ifeq "$(EFI)" "1"
  S_EFI = 65536 # 32 MB
@@ -112,6 +112,11 @@ $(TARGET) : $(patsubst %,$(DIR_DL)/%,$(objects))
 
 	kpartx -v -a $(DEVICE)
 
+	# kpartx trigger a automount on some desktop enviroments
+	# this leads in failing zerofree after build and umount the image
+	# with the sleep 1 prevent this because the image has no fs yet.
+	sleep 1
+
 	# Format them
 ifeq "$(PART_TYPE)" "c"
 	mkfs.vfat $(PART_BOOT)
@@ -121,7 +126,7 @@ endif
 ifeq "$(EFI)" "1"
 	mkfs.vfat $(PART_EFI)
 endif
-	mkfs.ext4 -O ^has_journal,extent -F $(PART_ROOT)
+	mkfs.ext4 -F $(PART_ROOT)
 
 	# Most systems that use Flashimages has no RTC at boot
 	# so the interval check should disables
@@ -225,7 +230,7 @@ endif
 	umount $(MNThdd)/boot
 	umount $(MNThdd)
 
-	# zerofree the ext2 images to get better compression
+	# zerofree the ext4 images to get better compression
 ifneq "$(PART_TYPE)" "c"
 	zerofree $(PART_BOOT)
 	-fsck.ext2 -f -y $(PART_BOOT)

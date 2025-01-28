@@ -1,0 +1,46 @@
+diff -Naur logwatch-7.11.orig/conf/services/mdadm.conf logwatch-7.11/conf/services/mdadm.conf
+--- logwatch-7.11.orig/conf/services/mdadm.conf	2018-12-17 02:47:45.000000000 +0100
++++ logwatch-7.11/conf/services/mdadm.conf	2024-08-27 15:18:31.430605943 +0200
+@@ -13,7 +13,7 @@
+ # Logwatch will try to find md devices in /etc/mdadm.conf or 
+ # /etc/mdadm/mdadm.conf. If none of these files exist it can scan actively
+ # for md devices. Set to 'Yes' to enable active scanning:
+-$mdadm_enable_scan = No
++$mdadm_enable_scan = Yes
+ 
+ # Logwatch will emit an error for md devices listed in /etc/mdadm.conf
+ # that are not present.  If you do not want this (e.g. raid devices may come
+diff -Naur logwatch-7.11.orig/scripts/services/mdadm logwatch-7.11/scripts/services/mdadm
+--- logwatch-7.11.orig/scripts/services/mdadm	2023-05-21 02:25:35.000000000 +0200
++++ logwatch-7.11/scripts/services/mdadm	2024-08-27 15:21:08.495487732 +0200
+@@ -36,7 +36,7 @@
+ if (
+     open($mdadm, "<", "/etc/mdadm.conf") or
+     open($mdadm, "<", "/etc/mdadm/mdadm.conf") or
+-    open($mdadm, "-|", "mdadm --detail --scan")) {
++    open($mdadm, "<", "sudo mdadm --detail --scan 2>/dev/null|")) {
+    while (<$mdadm>) {
+        if (/^ARRAY/) {
+          push(@devices,(split())[1]);
+@@ -52,7 +52,7 @@
+     next;
+   }
+ 
+-  open(MDADM,"mdadm --misc --detail $dev 2>&1 |");
++  open(MDADM,"sudo mdadm --misc --detail $dev 2>&1 |");
+   while (<MDADM>) {
+     if ($_ =~ /cannot open .*: No such file or directory/) {
+       print $_ unless $ignore_missing;
+@@ -75,7 +75,11 @@
+ 
+   if ($Detail <= 4) {
+     if (lc($mdhash{'state'}) =~ /clean|active/) {
+-      print "$dev : $mdhash{'state'}\n" if $Detail;
++      if (lc($mdhash{'state'}) =~ /degraded/) {
++        print "$dev : $mdhash{'state'}\n";
++      } else {
++        print "$dev : $mdhash{'state'}\n" if $Detail;
++      }
+     } else {
+       print "$dev : $mdhash{'state'}\n";
+       if (defined($mdhash{'middle devices'})) {

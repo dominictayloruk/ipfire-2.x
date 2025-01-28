@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.29"							# Version number
-CORE="189"							# Core Level (Filename)
+CORE="191"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 
@@ -939,7 +939,7 @@ lfsmake1() {
 		exiterror "Downloading ${pkg}"
 	fi
 
-	if ! make_pkg --timer="update_runtime" "${pkg}" TOOLCHAIN=1 ROOT="${BUILD_DIR}" "$@"; then
+	if ! make_pkg --timer="update_runtime" "${pkg}" TOOLCHAIN=1 ROOT="${BUILD_DIR}" b2 "$@"; then
 		print_status FAIL
 
 		exiterror "Building ${pkg}"
@@ -962,7 +962,7 @@ lfsmake2() {
 	fi
 
 	# Run install on the package
-	if ! make_pkg --chroot --timer="update_runtime" "${pkg}" install "$@"; then
+	if ! make_pkg --chroot --timer="update_runtime" "${pkg}" b2 install "$@"; then
 		print_status FAIL
 
 		exiterror "Building ${pkg}"
@@ -1479,6 +1479,14 @@ build_system() {
 	lfsmake2 openssl
 	lfsmake2 popt
 	lfsmake2 libedit
+	lfsmake2 expat
+	lfsmake2 libffi
+	lfsmake2 gdbm
+	lfsmake2 sqlite
+	lfsmake2 python3
+	lfsmake2 python3-setuptools
+	lfsmake2 ninja
+	lfsmake2 meson
 	lfsmake2 pam
 	lfsmake2 libcap
 	lfsmake2 libcap-ng
@@ -1501,22 +1509,14 @@ build_system() {
 	lfsmake2 iproute2
 	lfsmake2 screen
 	lfsmake2 elfutils
-	lfsmake2 expat
 	lfsmake2 libconfig
 	lfsmake2 curl
 	lfsmake2 libarchive
 	lfsmake2 cmake
 	lfsmake2 json-c
 	lfsmake2 tcl
-	lfsmake2 libffi
-	lfsmake2 gdbm
-	lfsmake2 sqlite
-	lfsmake2 python3
-	lfsmake2 python3-setuptools
 	lfsmake2 python3-MarkupSafe
 	lfsmake2 python3-Jinja2
-	lfsmake2 ninja
-	lfsmake2 meson
 	lfsmake2 kmod
 	lfsmake2 udev
 	lfsmake2 libusb
@@ -1659,6 +1659,7 @@ build_system() {
 	lfsmake2 libnet
 	lfsmake2 libnl-3
 	lfsmake2 libidn
+	lfsmake2 libidn2
 	lfsmake2 nasm
 	lfsmake2 libjpeg
 	lfsmake2 openjpeg
@@ -1725,10 +1726,6 @@ build_system() {
 	lfsmake2 perl-HTML-Tagset
 	lfsmake2 perl-HTML-Parser
 	lfsmake2 perl-HTML-Template
-	lfsmake2 perl-Compress-Zlib
-	lfsmake2 perl-Digest
-	lfsmake2 perl-Digest-SHA1
-	lfsmake2 perl-Digest-HMAC
 	lfsmake2 perl-libwww
 	lfsmake2 perl-LWP-Protocol-https
 	lfsmake2 perl-Net-HTTP
@@ -1744,13 +1741,11 @@ build_system() {
 	lfsmake2 perl-Canary-Stability
 	lfsmake2 perl-Convert-TNEF
 	lfsmake2 perl-Convert-UUlib
-	lfsmake2 perl-Archive-Tar
 	lfsmake2 perl-Archive-Zip
 	lfsmake2 perl-Text-Tabs+Wrap
 	lfsmake2 perl-XML-Parser
 	lfsmake2 perl-Crypt-PasswdMD5
 	lfsmake2 perl-Net-Telnet
-	lfsmake2 perl-JSON
 	lfsmake2 perl-Capture-Tiny
 	lfsmake2 perl-Config-AutoConf
 	lfsmake2 perl-Object-Tiny
@@ -1807,9 +1802,11 @@ build_system() {
 	lfsmake2 cups-pdf
 	lfsmake2 foomatic
 	lfsmake2 hplip
+	lfsmake2 libtalloc
 	lfsmake2 cifs-utils
 	lfsmake2 krb5
 	lfsmake2 rpcsvc-proto
+	lfsmake2 lmdb
 	lfsmake2 samba
 	lfsmake2 netatalk
 	lfsmake2 sudo
@@ -1825,7 +1822,6 @@ build_system() {
 	lfsmake2 perl-NetAddr-IP
 	lfsmake2 dma
 	lfsmake2 alsa
-	lfsmake2 mpfire
 	lfsmake2 guardian
 	lfsmake2 libid3tag
 	lfsmake2 libmad
@@ -1838,6 +1834,7 @@ build_system() {
 	lfsmake2 xvid
 	lfsmake2 libmpeg2
 	lfsmake2 gnump3d
+	lfsmake2 libxxhash
 	lfsmake2 rsync
 	lfsmake2 rpcbind
 	lfsmake2 keyutils
@@ -1895,7 +1892,6 @@ build_system() {
 	lfsmake2 mpc
 	lfsmake2 perl-Net-CIDR-Lite
 	lfsmake2 perl-Net-SMTP-SSL
-	lfsmake2 perl-MIME-Base64
 	lfsmake2 perl-Authen-SASL
 	lfsmake2 perl-MIME-Lite
 	lfsmake2 perl-Email-Date-Format
@@ -2005,7 +2001,6 @@ build_system() {
 	lfsmake2 strace
 	lfsmake2 ltrace
 	lfsmake2 ipfire-netboot
-	lfsmake2 lcdproc
 	lfsmake2 keepalived
 	lfsmake2 ipvsadm
 	lfsmake2 perl-Carp-Clan
@@ -2039,9 +2034,7 @@ build_system() {
 	lfsmake2 dmidecode
 	lfsmake2 mcelog
 	lfsmake2 libpciaccess
-	lfsmake2 libyajl
 	lfsmake2 libvirt
-	lfsmake2 libtalloc
 	lfsmake2 freeradius
 	lfsmake2 perl-common-sense
 	lfsmake2 perl-inotify2
@@ -2055,9 +2048,7 @@ build_system() {
 	lfsmake2 libplist
 	lfsmake2 nqptp
 	lfsmake2 shairport-sync
-	lfsmake2 libxxhash
 	lfsmake2 borgbackup
-	lfsmake2 lmdb
 	lfsmake2 knot
 	lfsmake2 spectre-meltdown-checker
 	lfsmake2 zabbix_agentd
@@ -2163,6 +2154,8 @@ check_for_missing_rootfiles() {
 
 	local file
 	for file in ${LOG_DIR}/*_missing_rootfile; do
+		[ -e "${file}" ] || continue
+
 		file="${file##*/}"
 		file="${file/_missing_rootfile/}";
 
@@ -2205,12 +2198,18 @@ check_rootfiles_for_arch() {
 		args+=( "--exclude" "${x}" )
 	done
 
-	# Search for all lines that contain the architecture, but exclude commented lines
-	if grep -r "^[^#].*${arch}" "${args[@]}"; then
-		return 1
-	fi
+	# Search for all files that contain the architecture, but exclude commented lines
+	local files=(
+		$(grep --files-with-matches -r "^[^#].*${arch}" "${args[@]}")
+	)
 
-	return 0
+	local file
+	for file in ${files[@]}; do
+		print_line "${file} contains ${arch}"
+		print_status FAIL
+	done
+
+	return "${#files[@]}"
 }
 
 check_rootfiles_for_pattern() {
@@ -2273,6 +2272,26 @@ check_rootfiles() {
 
 	# Return the error
 	return ${failed}
+}
+
+check_changed_rootfiles() {
+	local files=(
+		$(grep --files-with-matches -r "^+" "${LOG_DIR}" --exclude="_*" | sort)
+	)
+
+	# If we have no matches, there is nothing to do
+	[ "${#files[@]}" -eq 0 ] && return 0
+
+	print_line "Packages have created new files"
+	print_status WARN
+
+	local file
+	for file in ${files[@]}; do
+		print_line "  ${file##*/}"
+		print_status WARN
+	done
+
+	return 0
 }
 
 # Set BASEDIR
@@ -2478,6 +2497,8 @@ build)
 		exiterror "Rootfiles are inconsistent"
 	fi
 
+	check_changed_rootfiles
+
 	print_build_summary $(( SECONDS - START_TIME ))
 	;;
 tail)
@@ -2495,6 +2516,9 @@ shell)
 	# may be used to changed kernel settings
 	prepareenv --network
 	entershell
+	;;
+check)
+	check_changed_rootfiles
 	;;
 clean)
 	print_line "Cleaning build directory..."
