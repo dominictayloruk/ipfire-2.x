@@ -968,6 +968,7 @@ WARNING: translation string unused: zoneconf val vlan tag assignment error
 WARNING: translation string unused: zoneconf val vlan tag range error
 WARNING: translation string unused: zoneconf val zoneslave amount error
 WARNING: untranslated string: bypassed = Bypassed
+WARNING: untranslated string: ca name must only contain characters and spaces = unknown string
 WARNING: untranslated string: core notice 3 = available.
 WARNING: untranslated string: data transfer = Data Transfer
 WARNING: untranslated string: enable disable client = unknown string
@@ -1014,6 +1015,7 @@ WARNING: untranslated string: load average = Load Average
 WARNING: untranslated string: oops something went wrong = Oops, something went wrong...
 WARNING: untranslated string: ovpn roadwarrior server = OpenVPN Roadwarrior Server
 WARNING: untranslated string: pakfire ago = ago.
+WARNING: untranslated string: password has quotation mark = Password contains an illegal double quotation mark.
 WARNING: untranslated string: processors = Processors
 WARNING: untranslated string: reg_file_data_sampling = Register File Data Sampling (RFDS)
 WARNING: untranslated string: routing config added = unknown string

@@ -39,6 +39,7 @@
 < cake profile pppoe-ptm 27
 < cake profile pppoe-vcmux 32
 < cake profile raw 0
+< ca name must only contain characters or spaces
 < Captive heading terms
 < Captive heading voucher
 < Captive invalid coupon
@@ -122,6 +123,7 @@
 < access point name is required
 < addon
 < bypassed
+< ca name must only contain characters or spaces
 < cpu frequency
 < data transfer
 < dhcp fixed ip address in dynamic range
@@ -150,6 +152,7 @@
 < openvpn cert expires soon
 < openvpn cert has expired
 < ovpn roadwarrior server
+< password has quotation mark
 < processors
 < regenerate host certificate
 < reg_file_data_sampling
@@ -179,6 +182,7 @@
 < bewan adsl pci st
 < bewan adsl usb
 < bypassed
+< ca name must only contain characters or spaces
 < data transfer
 < extrahd because it it outside the allowed mount path
 < fwdfw syn flood protection
@@ -193,6 +197,7 @@
 < load average
 < oops something went wrong
 < ovpn roadwarrior server
+< password has quotation mark
 < processors
 < reg_file_data_sampling
 < scanned
@@ -261,6 +266,7 @@
 < cake profile pppoe-ptm 27
 < cake profile pppoe-vcmux 32
 < cake profile raw 0
+< ca name must only contain characters or spaces
 < Captive
 < Captive 1day
 < Captive 1month
@@ -314,7 +320,7 @@
 < Captive vouchervalid
 < Captive vout
 < Captive WiFi coupon
-< Captive wrong ext
+< Captive wrong type
 < check all
 < core update
 < cpu frequency
@@ -593,6 +599,7 @@
 < pakfire tree testing
 < pakfire tree unstable
 < pak update
+< password has quotation mark
 < please reboot to apply your changes
 < pptp netconfig
 < pptp peer
@@ -804,6 +811,7 @@
 < cake profile pppoe-ptm 27
 < cake profile pppoe-vcmux 32
 < cake profile raw 0
+< ca name must only contain characters or spaces
 < capabilities
 < Captive
 < Captive 1day
@@ -858,7 +866,7 @@
 < Captive vouchervalid
 < Captive vout
 < Captive WiFi coupon
-< Captive wrong ext
+< Captive wrong type
 < check all
 < cpu frequency
 < crypto error
@@ -1387,6 +1395,7 @@
 < cake profile pppoe-ptm 27
 < cake profile pppoe-vcmux 32
 < cake profile raw 0
+< ca name must only contain characters or spaces
 < capabilities
 < Captive
 < Captive 1day
@@ -1441,7 +1450,7 @@
 < Captive vouchervalid
 < Captive vout
 < Captive WiFi coupon
-< Captive wrong ext
+< Captive wrong type
 < ccd add
 < ccd choose net
 < ccd clientip
@@ -2064,6 +2073,7 @@
 < pakfire tree testing
 < pakfire tree unstable
 < pak update
+< password has quotation mark
 < please reboot to apply your changes
 < pptp netconfig
 < pptp peer
@@ -2403,6 +2413,7 @@
 < cake profile pppoe-ptm 27
 < cake profile pppoe-vcmux 32
 < cake profile raw 0
+< ca name must only contain characters or spaces
 < capabilities
 < Captive
 < Captive 1day
@@ -2457,7 +2468,7 @@
 < Captive vouchervalid
 < Captive vout
 < Captive WiFi coupon
-< Captive wrong ext
+< Captive wrong type
 < ccd add
 < ccd choose net
 < ccd clientip
@@ -3084,6 +3095,7 @@
 < pakfire tree testing
 < pakfire tree unstable
 < pak update
+< password has quotation mark
 < please reboot to apply your changes
 < pptp netconfig
 < pptp peer
@@ -3400,6 +3412,7 @@
 < cake profile pppoe-ptm 27
 < cake profile pppoe-vcmux 32
 < cake profile raw 0
+< ca name must only contain characters or spaces
 < Captive delete logo
 < core update
 < cpu frequency
@@ -3595,6 +3608,7 @@
 < pakfire tree testing
 < pakfire tree unstable
 < pak update
+< password has quotation mark
 < please reboot to apply your changes
 < processors
 < processor vulnerability mitigations

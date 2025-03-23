@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2007-2024  IPFire Team  <info@ipfire.org>                     #
+# Copyright (C) 2007-2025  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -23,7 +23,7 @@ NAME="IPFire"							# Software name
 SNAME="ipfire"							# Short name
 # If you update the version don't forget to update backupiso and add it to core update
 VERSION="2.29"							# Version number
-CORE="191"							# Core Level (Filename)
+CORE="193"							# Core Level (Filename)
 SLOGAN="www.ipfire.org"						# Software slogan
 CONFIG_ROOT=/var/ipfire						# Configuration rootdir
 
@@ -32,7 +32,7 @@ GIT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"			# Git Branch
 GIT_TAG="$(git tag | tail -1)"					# Git Tag
 GIT_LASTCOMMIT="$(git rev-parse --verify HEAD)"			# Last commit
 
-TOOLCHAINVER=20240827
+TOOLCHAINVER="20250222"
 
 KVER_SUFFIX="-${SNAME}"
 
@@ -939,7 +939,7 @@ lfsmake1() {
 		exiterror "Downloading ${pkg}"
 	fi
 
-	if ! make_pkg --timer="update_runtime" "${pkg}" TOOLCHAIN=1 ROOT="${BUILD_DIR}" b2 "$@"; then
+	if ! make_pkg --timer="update_runtime" "${pkg}" TOOLCHAIN=1 ROOT="${BUILD_DIR}" b2 install "$@"; then
 		print_status FAIL
 
 		exiterror "Building ${pkg}"
@@ -1363,7 +1363,7 @@ build_toolchain() {
 	lfsmake1 glibc
 	lfsmake1 libxcrypt
 	lfsmake1 gcc			PASS=L
-	lfsmake1 zlib
+	lfsmake1 zlib-ng
 	lfsmake1 binutils			PASS=2
 	lfsmake1 gcc			PASS=2
 	lfsmake1 zstd
@@ -1408,7 +1408,7 @@ build_system() {
 	lfsmake2 glibc
 	lfsmake2 tzdata
 	lfsmake2 cleanup-toolchain
-	lfsmake2 zlib
+	lfsmake2 zlib-ng
 	[ "${BUILD_ARCH}" = "riscv64" ] && lfsmake2 gcc PASS=A
 	lfsmake2 zstd
 	lfsmake2 autoconf
@@ -1420,6 +1420,7 @@ build_system() {
 	lfsmake2 gmp
 	lfsmake2 mpfr
 	lfsmake2 libmpc
+	lfsmake2 pkg-config
 	lfsmake2 libxcrypt
 	lfsmake2 file
 	lfsmake2 gcc
@@ -1455,7 +1456,6 @@ build_system() {
 	lfsmake2 whois
 	lfsmake2 kbd
 	lfsmake2 less
-	lfsmake2 pkg-config
 	lfsmake2 procps
 	lfsmake2 make
 	lfsmake2 libpipeline
@@ -1556,8 +1556,10 @@ build_system() {
 	lfsmake2 rust-cipher
 	lfsmake2 rust-hex
 	lfsmake2 rust-unicode-xid
+	lfsmake2 rust-unicode-ident
 	lfsmake2 rust-proc-macro2
 	lfsmake2 rust-quote
+	lfsmake2 rust-syn-1.0.109
 	lfsmake2 rust-syn
 	lfsmake2 rust-home
 	lfsmake2 rust-lazy-static
@@ -1573,6 +1575,7 @@ build_system() {
 	lfsmake2 rust-walkdir
 	lfsmake2 rust-dirs
 	lfsmake2 rust-toolchain_find
+	lfsmake2 rust-serde_derive
 	lfsmake2 rust-serde
 	lfsmake2 rust-itoa
 	lfsmake2 rust-ryu
@@ -1606,12 +1609,22 @@ build_system() {
 	lfsmake2 rust-glob
 	lfsmake2 rust-once_cell
 	lfsmake2 rust-termcolor
+	lfsmake2 rust-serde_spanned
+	lfsmake2 rust-toml_datetime
+	lfsmake2 rust-equivalent
+	lfsmake2 rust-allocator-api2
+	lfsmake2 rust-foldhash
+	lfsmake2 rust-hashbrown
+	lfsmake2 rust-indexmap
+	lfsmake2 rust-winnow
+	lfsmake2 rust-toml_edit
 	lfsmake2 rust-toml
-	lfsmake2 rust-serde_derive
+	lfsmake2 rust-target-triple
 	lfsmake2 rust-trybuild
 	lfsmake2 rust-unindent
 	lfsmake2 rust-proc-macro-hack
 	lfsmake2 rust-indoc-impl
+	lfsmake2 rust-indoc-impl-0.3.6
 	lfsmake2 rust-indoc
 	lfsmake2 rust-indoc-0.3.6
 	lfsmake2 rust-instant
@@ -1661,11 +1674,9 @@ build_system() {
 	lfsmake2 libidn
 	lfsmake2 libidn2
 	lfsmake2 nasm
-	lfsmake2 libjpeg
-	lfsmake2 openjpeg
 	lfsmake2 libexif
+	lfsmake2 libjpeg
 	lfsmake2 libpng
-	lfsmake2 libtiff
 	lfsmake2 gd
 	lfsmake2 slang
 	lfsmake2 newt
@@ -1748,6 +1759,7 @@ build_system() {
 	lfsmake2 perl-Net-Telnet
 	lfsmake2 perl-Capture-Tiny
 	lfsmake2 perl-Config-AutoConf
+	lfsmake2 perl-File-LibMagic
 	lfsmake2 perl-Object-Tiny
 	lfsmake2 perl-Archive-Peek-Libarchive
 	lfsmake2 python3-inotify
@@ -1791,17 +1803,6 @@ build_system() {
 	lfsmake2 intltool
 	lfsmake2 libdaemon
 	lfsmake2 avahi
-	lfsmake2 cups
-	lfsmake2 lcms2
-	lfsmake2 ghostscript
-	lfsmake2 qpdf
-	lfsmake2 poppler
-	lfsmake2 poppler-data
-	lfsmake2 cups-filters
-	lfsmake2 epson-inkjet-printer-escpr
-	lfsmake2 cups-pdf
-	lfsmake2 foomatic
-	lfsmake2 hplip
 	lfsmake2 libtalloc
 	lfsmake2 cifs-utils
 	lfsmake2 krb5
@@ -1850,6 +1851,8 @@ build_system() {
 	lfsmake2 lm_sensors
 	lfsmake2 libstatgrab
 	lfsmake2 liboping
+	lfsmake2 netsnmpd
+	lfsmake2 nut
 	lfsmake2 collectd
 	lfsmake2 git
 	lfsmake2 linux-firmware
@@ -1871,8 +1874,8 @@ build_system() {
 	lfsmake2 libseccomp
 	lfsmake2 libslirp
 	lfsmake2 dtc
+	lfsmake2 python3-tomli
 	lfsmake2 qemu
-	lfsmake2 netsnmpd
 	lfsmake2 nagios_nrpe
 	lfsmake2 nagios-plugins
 	lfsmake2 observium-agent
@@ -1902,7 +1905,6 @@ build_system() {
 	lfsmake2 syslinux
 	lfsmake2 tftpd
 	lfsmake2 cpufrequtils
-	lfsmake2 gutenprint
 	lfsmake2 apcupsd
 	lfsmake2 fireperf
 	lfsmake2 iperf
@@ -1921,7 +1923,6 @@ build_system() {
 	lfsmake2 openvmtools
 	lfsmake2 joe
 	lfsmake2 monit
-	lfsmake2 nut
 	lfsmake2 watchdog
 	lfsmake2 usb_modeswitch
 	lfsmake2 usb_modeswitch_data
@@ -1930,6 +1931,7 @@ build_system() {
 	lfsmake2 ddrescue
 	lfsmake2 parted
 	lfsmake2 swig
+	lfsmake2 python3-pyelftools
 	lfsmake2 u-boot
 	lfsmake2 wireless-regdb
 	lfsmake2 ddns
@@ -1938,7 +1940,6 @@ build_system() {
 	lfsmake2 python3-certifi
 	lfsmake2 python3-idna
 	lfsmake2 python3-requests
-	lfsmake2 python3-tomli
 	lfsmake2 python3-pep517
 	lfsmake2 python3-build
 	lfsmake2 python3-install
@@ -2034,6 +2035,7 @@ build_system() {
 	lfsmake2 dmidecode
 	lfsmake2 mcelog
 	lfsmake2 libpciaccess
+	lfsmake2 ovmf
 	lfsmake2 libvirt
 	lfsmake2 freeradius
 	lfsmake2 perl-common-sense
@@ -2183,7 +2185,16 @@ check_rootfiles_for_arch() {
 	# A list of files that are not scanned
 	# because they probably cause some false positives.
 	local excluded_files=(
+		abseil-cpp
+		cmake
+		gdb
+		liburcu
+		ovmf
 		qemu
+		rust-memchr
+		rust-libc
+		rust-ppv-lite86
+		xfsprogs
 	)
 
 	# Exclude any architecture-specific directories
@@ -2198,9 +2209,9 @@ check_rootfiles_for_arch() {
 		args+=( "--exclude" "${x}" )
 	done
 
-	# Search for all files that contain the architecture, but exclude commented lines
+	# Search for all files that contain the architecture
 	local files=(
-		$(grep --files-with-matches -r "^[^#].*${arch}" "${args[@]}")
+		$(grep --files-with-matches -r "^.*${arch}" "${args[@]}")
 	)
 
 	local file
@@ -2518,6 +2529,11 @@ shell)
 	entershell
 	;;
 check)
+	# Check for rootfile consistency
+	if ! check_rootfiles; then
+		exiterror "Rootfiles are inconsistent"
+	fi
+
 	check_changed_rootfiles
 	;;
 clean)

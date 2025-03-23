@@ -457,8 +457,8 @@ sub updateifgraph {
 		"--color=SHADEA".$color{"color19"},
 		"--color=SHADEB".$color{"color19"},
 		"--color=BACK".$color{"color21"},
-		"DEF:incoming=".$mainsettings{'RRDLOG'}."/collectd/localhost/interface/if_octets-".$interface.".rrd:rx:AVERAGE",
-		"DEF:outgoing=".$mainsettings{'RRDLOG'}."/collectd/localhost/interface/if_octets-".$interface.".rrd:tx:AVERAGE",
+		"DEF:incoming=".$mainsettings{'RRDLOG'}."/collectd/localhost/interface-".$interface."/if_octets.rrd:rx:AVERAGE",
+		"DEF:outgoing=".$mainsettings{'RRDLOG'}."/collectd/localhost/interface-".$interface."/if_octets.rrd:tx:AVERAGE",
 		"CDEF:outgoingn=outgoing,-1,*",
 		"COMMENT:".sprintf("%-20s",$Lang::tr{'caption'}),
 		"COMMENT:".sprintf("%15s",$Lang::tr{'maximal'}),
@@ -757,7 +757,7 @@ sub updatepinggraph {
 		"--color=SHADEA".$color{"color19"},
 		"--color=SHADEB".$color{"color19"},
 		"--color=BACK".$color{"color21"},
-		"DEF:roundtrip=".$mainsettings{'RRDLOG'}."/collectd/localhost/ping/ping-".$host.".rrd:ping:AVERAGE",
+		"DEF:roundtrip=".$mainsettings{'RRDLOG'}."/collectd/localhost/ping/ping-".$host.".rrd:value:AVERAGE",
 		"COMMENT:".sprintf("%-20s",$Lang::tr{'caption'})."\\j",
 		"CDEF:roundavg=roundtrip,PREV(roundtrip),+,2,/",
 		"CDEF:r0=roundtrip,30,MIN",
@@ -1094,7 +1094,7 @@ sub updatecpufreqgraph {
 	my $j = 11;
 	for(my $i = 0; $i < $cpucount; $i++) {
 		$j++; $j = 1 if $j > 20;
-		push(@command,"DEF:cpu".$i."_=".$mainsettings{'RRDLOG'}."/collectd/localhost/cpufreq/cpufreq-".$i.".rrd:value:AVERAGE"
+		push(@command,"DEF:cpu".$i."_=".$mainsettings{'RRDLOG'}."/collectd/localhost/cpufreq-".$i."/cpufreq.rrd:value:AVERAGE"
 				,"CDEF:cpu".$i."=cpu".$i."_,1000000,/"
 				,"LINE1:cpu".$i.$color{"color$j"}."A0:cpu ".$i." "
 				,"GPRINT:cpu".$i.":MAX:%3.0lf Mhz"
@@ -1132,7 +1132,7 @@ sub updatethermaltempgraph {
 
 	for(my $i = 0; $i < $thermalcount; $i++) {
 		my $j=$i+1;
-		push(@command,"DEF:temp".$i."_=".$mainsettings{'RRDLOG'}."/collectd/localhost/thermal-thermal_zone".$i."/temperature-temperature.rrd:value:AVERAGE"
+		push(@command,"DEF:temp".$i."_=".$mainsettings{'RRDLOG'}."/collectd/localhost/thermal-thermal_zone".$i."/temperature.rrd:value:AVERAGE"
 				,"CDEF:temp".$i."=temp".$i."_,1,/"
 				,"LINE3:temp".$i.$color{"color1$j"}."A0:Temp ".$i." "
 				,"GPRINT:temp".$i.":MAX:%3.0lf °C"
@@ -1173,7 +1173,7 @@ sub updateconntrackgraph {
 		"-r",
 		"--lower-limit","0",
 		"-v $Lang::tr{'open connections'}",
-		"DEF:conntrack=$mainsettings{'RRDLOG'}/collectd/localhost/conntrack/conntrack.rrd:entropy:AVERAGE",
+		"DEF:conntrack=$mainsettings{'RRDLOG'}/collectd/localhost/conntrack/conntrack.rrd:value:AVERAGE",
 		"LINE3:conntrack#ff0000:" . sprintf("%-15s", $Lang::tr{'open connections'}),
 		"VDEF:ctmin=conntrack,MINIMUM",
 		"VDEF:ctmax=conntrack,MAXIMUM",
