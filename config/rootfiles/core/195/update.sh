@@ -24,19 +24,7 @@
 . /opt/pakfire/lib/functions.sh
 /usr/local/bin/backupctrl exclude >/dev/null 2>&1
 
-core=194
-
-exit_with_error() {
-    # Set last succesfull installed core.
-    echo $(($core-1)) > /opt/pakfire/db/core/mine
-    # force fsck at next boot, this may fix free space on xfs
-    touch /forcefsck
-    # don't start pakfire again at error
-    killall -KILL pak_update
-    /usr/bin/logger -p syslog.emerg -t ipfire \
-	"core-update-${core}: $1"
-    exit $2
-}
+core=195
 
 # Remove old core updates from pakfire cache to save space...
 for (( i=1; i<=$core; i++ )); do
@@ -45,57 +33,40 @@ done
 
 # Stop services
 
-KVER="xxxKVERxxx"
-
-# Backup uEnv.txt if exist
-if [ -e /boot/uEnv.txt ]; then
-    cp -vf /boot/uEnv.txt /boot/uEnv.txt.org
-fi
-
-# Do some sanity checks prior to the kernel update
-case $(uname -r) in
-    *-ipfire*)
-	# Ok.
-	;;
-    *)
-	exit_with_error "ERROR cannot update. No IPFire Kernel." 1
-	;;
-esac
-
-# Check diskspace on root and size of boot
-ROOTSPACE=$( df / -Pk | sed "s| * | |g" | cut -d" " -f4 | tail -n 1 )
-if [ $ROOTSPACE -lt 200000 ]; then
-    exit_with_error "ERROR cannot update because not enough free space on root." 2
-fi
-BOOTSIZE=$( df /boot -Pk | sed "s| * | |g" | cut -d" " -f2 | tail -n 1 )
-if [ $BOOTSIZE -lt 100000 ]; then
-    exit_with_error "ERROR cannot update. BOOT partition is to small." 3
-fi
-
-# Remove the old kernel
-rm -rvf \
-	/boot/System.map-* \
-	/boot/config-* \
-	/boot/ipfirerd-* \
-	/boot/initramfs-* \
-	/boot/vmlinuz-* \
-	/boot/uImage-* \
-	/boot/zImage-* \
-	/boot/uInit-* \
-	/boot/dtb-* \
-	/lib/modules
-
 # Remove files
-rm -vf \
-	/usr/bin/idn \
-	/usr/lib/libidn.so.12 \
-	/usr/lib/libidn.so.12.6.5
+rm -rfv \
+	/usr/lib/perl5/site_perl/5.36.0/Apache/Htpasswd.pm
 
 # Extract files
 extract_files
 
+# Remove dropped packages
+for package in libmpeg2 xvid; do
+        if [ -e "/opt/pakfire/db/installed/meta-${package}" ]; then
+                stop_service "${package}"
+                for i in $(</opt/pakfire/db/rootfiles/${package}); do
+                        rm -rfv "/${i}"
+                done
+        fi
+        rm -f "/opt/pakfire/db/installed/meta-${package}"
+        rm -f "/opt/pakfire/db/meta/meta-${package}"
+        rm -f "/opt/pakfire/db/rootfiles/${package}"
+done
+
 # update linker config
 ldconfig
+
+# Create the Wireguard configuration directory
+if [ ! -d "/var/ipfire/wireguard" ]; then
+	mkdir -pv "/var/ipfire/wireguard"
+
+	# Create some configuration files
+	touch /var/ipfire/wireguard/peers
+	touch /var/ipfire/wireguard/settings
+
+	# Everything needs to belong to nobody
+	chown -Rv nobody:nobody "/var/ipfire/wireguard"
+fi
 
 # Update Language cache
 /usr/local/bin/update-lang-cache
@@ -103,37 +74,31 @@ ldconfig
 # Filesytem cleanup
 /usr/local/bin/filesystem-cleanup
 
-# Increment ipsec serial file if x509 certificates present and no content in index.txt
-if [ -e "/var/ipfire/certs/hostcert.pm" ] && [ -z "/var/ipfire/certs/index.txt" ]; then
-    sed -i "s/01/02/" /var/ipfire/certs/serial
+# Remove any entry for 3CORESEC_SSH, 3CORESEC_SCAN or 3CORESEC_WEB from the ipblocklist modified file
+# and the associated ipblocklist files from the /var/lib/ipblocklist directory
+sed -i '/3CORESEC_SSH=/d' /var/ipfire/ipblocklist/modified
+if [ -e /var/lib/ipblocklist/3CORESEC_SSH.conf ]; then
+	rm /var/lib/ipblocklist/3CORESEC_SSH.conf
 fi
+sed -i '/3CORESEC_SCAN=/d' /var/ipfire/ipblocklist/modified
+if [ -e /var/lib/ipblocklist/3CORESEC_SCAN.conf ]; then
+	rm /var/lib/ipblocklist/3CORESEC_SCAN.conf
+fi
+sed -i '/3CORESEC_WEB=/d' /var/ipfire/ipblocklist/modified
+if [ -e /var/lib/ipblocklist/3CORESEC_WEB.conf ]; then
+	rm /var/lib/ipblocklist/3CORESEC_WEB.conf
+fi
+
+# Apply SSH configuration
+/usr/local/bin/sshctrl
 
 # Start services
-/etc/init.d/ipsec restart
-/etc/init.d/suricata restart
-
-# Build initial ramdisks
-dracut --regenerate-all --force
-KVER="xxxKVERxxx"
-case "$(uname -m)" in
-	aarch64)
-		mkimage -A arm64 -T ramdisk -C lzma -d /boot/initramfs-${KVER}.img /boot/uInit-${KVER}
-		# dont remove initramfs because grub need this to boot.
-		;;
-esac
-
-# Upadate Kernel version in uEnv.txt
-if [ -e /boot/uEnv.txt ]; then
-    sed -i -e "s/KVER=.*/KVER=${KVER}/g" /boot/uEnv.txt
-fi
-
-# Call user update script (needed for some ARM boards)
-if [ -e /boot/pakfire-kernel-update ]; then
-    /boot/pakfire-kernel-update ${KVER}
-fi
+/etc/init.d/firewall restart
+/etc/init.d/sshd restart
+/etc/init.d/unbound restart
 
 # This update needs a reboot...
-touch /var/run/need_reboot
+#touch /var/run/need_reboot
 
 # Finish
 /etc/init.d/fireinfo start
