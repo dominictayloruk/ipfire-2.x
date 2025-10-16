@@ -66,6 +66,8 @@
 < fwdfw syn flood protection
 < fwhost wg peers
 < g.dtm
+< generate pdf report for
+< generatereport
 < g.lite
 < hostile networks in
 < hostile networks out
@@ -113,6 +115,7 @@
 < reiserfs warning1
 < reiserfs warning2
 < remarks
+< report exporting
 < required
 < routing
 < rss
@@ -156,9 +159,28 @@
 < AES-256-GCM
 < CHACHA20-POLY1305
 < dns servers
+< download report
+< fwhost invalid country code
+< generate pdf report for
+< ids all including informational
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
+< ids invalid mail address
+< ids no email recipients
+< ids no email sender
 < ids provider eol
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
+< ids send email on alert
 < indirect target selection
 < mdstat
+< offloaded
 < online
 < ovpn ciphers
 < ovpn crypto settings
@@ -177,6 +199,7 @@
 < ovpn transport protocol
 < ovpn unsupported cipher selected
 < quality of service
+< report exporting
 < rss
 < rss long
 < transient sheduler attacks
@@ -197,17 +220,35 @@
 < configuration file
 < data transfer
 < done
+< download report
 < endpoint
 < endpoint address
 < endpoint port
 < extrahd because it it outside the allowed mount path
 < fwdfw syn flood protection
+< fwhost invalid country code
 < fwhost wg peers
 < g.dtm
+< generate pdf report for
 < g.lite
 < hostile networks total
+< ids all including informational
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
+< ids invalid mail address
+< ids no email recipients
+< ids no email sender
 < ids provider eol
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
 < ids rulesets
+< ids send email on alert
 < ids unsupported provider
 < import connection
 < indirect target selection
@@ -225,6 +266,7 @@
 < malformed private key
 < malformed public key
 < mdstat
+< offloaded
 < online
 < oops something went wrong
 < ovpn ciphers
@@ -252,6 +294,7 @@
 < reg_file_data_sampling
 < remarks
 < remote subnets
+< report exporting
 < routing
 < rss
 < rss long
@@ -472,6 +515,7 @@
 < done
 < downfall gather data sampling
 < download apple profile
+< download report
 < drop hostile
 < drop spoofed martians
 < duration
@@ -538,9 +582,11 @@
 < fwhost cust location
 < fwhost cust locationgroup
 < fwhost cust locationlocation
+< fwhost invalid country code
 < fwhost newlocationgrp
 < fwhost wg peers
 < fw red
+< generate pdf report for
 < generate ptr
 < guaranteed bandwidth
 < guardian
@@ -550,6 +596,7 @@
 < hostile networks total
 < ids add provider
 < ids adjust ruleset
+< ids all including informational
 < ids apply
 < ids apply ruleset changes
 < ids automatic rules update
@@ -558,29 +605,43 @@
 < ids could not add provider
 < ids customize ruleset
 < ids download new ruleset
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
 < ids enable
 < ids enable automatic updates
 < ids extract ruleset
 < ids finished
 < ids force ruleset update
 < ids hide
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
 < ids ignored hosts
+< ids invalid mail address
 < ids log hits
 < ids merge classifications
 < ids merge sid files
 < ids monitored interfaces
 < ids monitor traffic only
+< ids no email recipients
+< ids no email sender
 < ids no enabled ruleset provider
 < ids no network zone
 < ids provider
 < ids provider eol
 < ids provider settings
 < ids remove rule structures
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
 < ids reset provider
 < ids ruleset autoupdate in progress
 < ids ruleset is up to date
 < ids rulesets
 < ids ruleset settings
+< ids send email on alert
 < ids show
 < ids subscription code required
 < ids the choosen provider is already in use
@@ -691,6 +752,7 @@
 < not affected
 < not validating
 < Number of Countries for the pie chart
+< offloaded
 < okay
 < one hour
 < one month
@@ -761,6 +823,7 @@
 < release
 < remarks
 < remote subnets
+< report exporting
 < required
 < required field
 < retbleed
@@ -1113,6 +1176,7 @@
 < done
 < downfall gather data sampling
 < download apple profile
+< download report
 < download tls-auth key
 < drop hostile
 < drop outgoing
@@ -1182,9 +1246,11 @@
 < fwhost cust location
 < fwhost cust locationgroup
 < fwhost cust locationlocation
+< fwhost invalid country code
 < fwhost newlocationgrp
 < fwhost wg peers
 < fw red
+< generate pdf report for
 < generate ptr
 < guardian
 < hardware vulnerabilities
@@ -1193,6 +1259,7 @@
 < hostile networks total
 < ids add provider
 < ids adjust ruleset
+< ids all including informational
 < ids apply
 < ids apply ruleset changes
 < ids automatic rules update
@@ -1201,29 +1268,43 @@
 < ids could not add provider
 < ids customize ruleset
 < ids download new ruleset
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
 < ids enable
 < ids enable automatic updates
 < ids extract ruleset
 < ids finished
 < ids force ruleset update
 < ids hide
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
 < ids ignored hosts
+< ids invalid mail address
 < ids log hits
 < ids merge classifications
 < ids merge sid files
 < ids monitored interfaces
 < ids monitor traffic only
+< ids no email recipients
+< ids no email sender
 < ids no enabled ruleset provider
 < ids no network zone
 < ids provider
 < ids provider eol
 < ids provider settings
 < ids remove rule structures
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
 < ids reset provider
 < ids ruleset autoupdate in progress
 < ids ruleset is up to date
 < ids rulesets
 < ids ruleset settings
+< ids send email on alert
 < ids show
 < ids subscription code required
 < ids the choosen provider is already in use
@@ -1352,6 +1433,7 @@
 < not affected
 < not validating
 < Number of Countries for the pie chart
+< offloaded
 < okay
 < one hour
 < one month
@@ -1422,6 +1504,7 @@
 < reiserfs warning2
 < remarks
 < remote subnets
+< report exporting
 < required
 < required field
 < retbleed
@@ -1851,6 +1934,7 @@
 < downfall gather data sampling
 < downlink
 < download apple profile
+< download report
 < download tls-auth key
 < dpd delay
 < dpd timeout
@@ -2090,6 +2174,7 @@
 < fwhost hint
 < fwhost hosts
 < fwhost icmptype
+< fwhost invalid country code
 < fwhost ipadr
 < fwhost ip_mac
 < fwhost ipsec host
@@ -2129,6 +2214,7 @@
 < fw settings dropdown
 < fw settings remark
 < fw settings ruletable
+< generate pdf report for
 < generate ptr
 < grouptype
 < guardian
@@ -2138,6 +2224,7 @@
 < hostile networks total
 < ids add provider
 < ids adjust ruleset
+< ids all including informational
 < ids apply
 < ids apply ruleset changes
 < ids automatic rules update
@@ -2146,29 +2233,43 @@
 < ids could not add provider
 < ids customize ruleset
 < ids download new ruleset
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
 < ids enable
 < ids enable automatic updates
 < ids extract ruleset
 < ids finished
 < ids force ruleset update
 < ids hide
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
 < ids ignored hosts
+< ids invalid mail address
 < ids log hits
 < ids merge classifications
 < ids merge sid files
 < ids monitored interfaces
 < ids monitor traffic only
+< ids no email recipients
+< ids no email sender
 < ids no enabled ruleset provider
 < ids no network zone
 < ids provider
 < ids provider eol
 < ids provider settings
 < ids remove rule structures
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
 < ids reset provider
 < ids ruleset autoupdate in progress
 < ids ruleset is up to date
 < ids rulesets
 < ids ruleset settings
+< ids send email on alert
 < ids show
 < ids subscription code required
 < ids the choosen provider is already in use
@@ -2316,6 +2417,7 @@
 < notice
 < not validating
 < Number of Countries for the pie chart
+< offloaded
 < okay
 < one hour
 < one month
@@ -2424,6 +2526,7 @@
 < release
 < remarks
 < remote subnets
+< report exporting
 < required
 < required field
 < retbleed
@@ -2961,6 +3064,7 @@
 < downfall gather data sampling
 < downlink
 < download apple profile
+< download report
 < download tls-auth key
 < dpd delay
 < dpd timeout
@@ -3202,6 +3306,7 @@
 < fwhost hint
 < fwhost hosts
 < fwhost icmptype
+< fwhost invalid country code
 < fwhost ipadr
 < fwhost ip_mac
 < fwhost ipsec host
@@ -3241,6 +3346,7 @@
 < fw settings dropdown
 < fw settings remark
 < fw settings ruletable
+< generate pdf report for
 < generate ptr
 < grouptype
 < guardian
@@ -3251,6 +3357,7 @@
 < hour-graph
 < ids add provider
 < ids adjust ruleset
+< ids all including informational
 < ids apply
 < ids apply ruleset changes
 < ids automatic rules update
@@ -3259,29 +3366,43 @@
 < ids could not add provider
 < ids customize ruleset
 < ids download new ruleset
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
 < ids enable
 < ids enable automatic updates
 < ids extract ruleset
 < ids finished
 < ids force ruleset update
 < ids hide
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
 < ids ignored hosts
+< ids invalid mail address
 < ids log hits
 < ids merge classifications
 < ids merge sid files
 < ids monitored interfaces
 < ids monitor traffic only
+< ids no email recipients
+< ids no email sender
 < ids no enabled ruleset provider
 < ids no network zone
 < ids provider
 < ids provider eol
 < ids provider settings
 < ids remove rule structures
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
 < ids reset provider
 < ids ruleset autoupdate in progress
 < ids ruleset is up to date
 < ids rulesets
 < ids ruleset settings
+< ids send email on alert
 < ids show
 < ids subscription code required
 < ids the choosen provider is already in use
@@ -3431,6 +3552,7 @@
 < notice
 < not validating
 < Number of Countries for the pie chart
+< offloaded
 < okay
 < one hour
 < one month
@@ -3537,6 +3659,7 @@
 < release
 < remarks
 < remote subnets
+< report exporting
 < required
 < required field
 < retbleed
@@ -3923,6 +4046,7 @@
 < done
 < downfall gather data sampling
 < download apple profile
+< download report
 < drop hostile
 < drop spoofed martians
 < duration
@@ -3949,8 +4073,10 @@
 < foreshadow
 < fwdfw all subnets
 < fwdfw syn flood protection
+< fwhost invalid country code
 < fwhost wg peers
 < fw red
+< generate pdf report for
 < generate ptr
 < hardware vulnerabilities
 < hostile networks in
@@ -3958,6 +4084,7 @@
 < hostile networks total
 < ids add provider
 < ids adjust ruleset
+< ids all including informational
 < ids apply
 < ids apply ruleset changes
 < ids automatic rules update
@@ -3966,29 +4093,43 @@
 < ids could not add provider
 < ids customize ruleset
 < ids download new ruleset
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
 < ids enable
 < ids enable automatic updates
 < ids extract ruleset
 < ids finished
 < ids force ruleset update
 < ids hide
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
 < ids ignored hosts
+< ids invalid mail address
 < ids log hits
 < ids merge classifications
 < ids merge sid files
 < ids monitored interfaces
 < ids monitor traffic only
+< ids no email recipients
+< ids no email sender
 < ids no enabled ruleset provider
 < ids no network zone
 < ids provider
 < ids provider eol
 < ids provider settings
 < ids remove rule structures
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
 < ids reset provider
 < ids ruleset autoupdate in progress
 < ids ruleset is up to date
 < ids rulesets
 < ids ruleset settings
+< ids send email on alert
 < ids show
 < ids subscription code required
 < ids the choosen provider is already in use
@@ -4073,6 +4214,7 @@
 < no entries
 < not affected
 < not validating
+< offloaded
 < okay
 < online
 < oops something went wrong
@@ -4132,6 +4274,7 @@
 < release
 < remarks
 < remote subnets
+< report exporting
 < required
 < retbleed
 < routing
@@ -4287,9 +4430,28 @@
 < Captive wrong type
 < CHACHA20-POLY1305
 < dns servers
+< download report
+< fwhost invalid country code
+< generate pdf report for
 < guaranteed bandwidth
+< ids all including informational
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
+< ids invalid mail address
+< ids no email recipients
+< ids no email sender
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
+< ids send email on alert
 < indirect target selection
 < max bandwidth
+< offloaded
 < online
 < ovpn ciphers
 < ovpn crypto settings
@@ -4319,6 +4481,7 @@
 < pakfire remove package
 < pakfire updating
 < password has quotation mark
+< report exporting
 < rss
 < rss long
 < transient sheduler attacks
@@ -4334,9 +4497,28 @@
 < Captive wrong type
 < CHACHA20-POLY1305
 < dns servers
+< download report
+< fwhost invalid country code
+< generate pdf report for
 < guaranteed bandwidth
+< ids all including informational
+< ids email alerts
+< ids email alert severity
+< ids email recipients
+< ids email sender
+< ids high and medium severity
+< ids high, medium and low severity
+< ids high severity only
+< ids invalid mail address
+< ids no email recipients
+< ids no email sender
+< ids reports daily
+< ids reports monthly
+< ids reports weekly
+< ids send email on alert
 < indirect target selection
 < max bandwidth
+< offloaded
 < online
 < ovpn ciphers
 < ovpn crypto settings
@@ -4366,6 +4548,7 @@
 < pakfire remove package
 < pakfire updating
 < password has quotation mark
+< report exporting
 < rss
 < rss long
 < transient sheduler attacks

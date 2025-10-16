@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2013 Alexander Marx <amarx@ipfire.org>                        #
+# Copyright (C) 2013-2025  IPFire Team  <info@ipfire.org>                     #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -703,6 +703,10 @@ if ($fwhostsettings{'ACTION'} eq 'savelocationgrp')
 	# Check name
 	if (!&validhostname($grp)){$errormessage.=$Lang::tr{'fwhost err name'};}
 
+	unless (&General::validcc($fwhostsettings{'COUNTRY_CODE'})) {
+		$errormessage = $Lang::tr{'fwhost invalid country code'};
+	}
+
 	# Check for existing group name.
 	if (!&checkgroup($grp) && $fwhostsettings{'update'} ne 'on'){
 		$errormessage = $Lang::tr{'fwhost err grpexist'};
@@ -714,7 +718,7 @@ if ($fwhostsettings{'ACTION'} eq 'savelocationgrp')
 	}
 
 	if ($fwhostsettings{'update'} eq 'on'){
-		@target=$fwhostsettings{'COUNTRY_CODE'};
+		@target = $fwhostsettings{'COUNTRY_CODE'};
 		$type='Location Group';
 
 		#check if host/net exists in grp
@@ -1779,7 +1783,7 @@ sub addservice
 	{
 		$fwhostsettings{'oldsrvname'} = $fwhostsettings{'SRV_NAME'};
 		$fwhostsettings{'oldsrvport'} = $fwhostsettings{'SRV_PORT'};
-		$fwhostsettings{'oldsrvprot'} = $fwhostsettings{'PROT'};
+		$fwhostsettings{'oldsrvprot'} = &Header::escape($fwhostsettings{'PROT'});
 		$fwhostsettings{'oldsrvicmp'} = $fwhostsettings{'ICMP'};
 	}
 	print<<END;

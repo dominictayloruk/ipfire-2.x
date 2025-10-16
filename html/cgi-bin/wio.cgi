@@ -3,7 +3,7 @@
 ###############################################################################
 #                                                                             #
 # IPFire.org - A linux based firewall                                         #
-# Copyright (C) 2017-2021 Stephan Feddersen <sfeddersen@ipfire.org>           #
+# Copyright (C) 2017-2025 IPFire Team  <info@ipfire.org>                      #
 # All Rights Reserved.                                                        #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
@@ -84,7 +84,7 @@ my $rrddir       = "/var/log/rrd/wio";
 my $refreshbox   = '<meta http-equiv="refresh" content="0;url=/cgi-bin/wio.cgi">';
 my $sortstring   = '^IPADR|^HOST';
 my $ovpnaddon    = "/var/ipfire/ovpn";
-my $ovpnpid      = "/var/run/openvpn.pid";
+my $ovpnpid      = "/var/run/openvpn-rw.pid";
 my $vpnpid       = "/var/run/charon.pid";
 my $redactive    = "/var/ipfire/red/active";
 my $redip        = '-';
@@ -1291,7 +1291,7 @@ print"</table>";
 
 if ( -e "$ovpnpid" ) {
 
-@ovpnstatus = `cat /var/run/ovpnserver.log`;
+@ovpnstatus = `cat /var/run/openvpn-rw.log`;
 
 print"
 <table border='0' width='100%' bordercolor='$Header::bordercolour' cellspacing='0' cellpadding='0' style='border-collapse: collapse'>
